@@ -1,6 +1,6 @@
 # Дневник смен водителя
 
-Небольшое приложение: список поездок за день и сводка за день (число поездок, выручка, комиссия, на руки, разбивка наличные/карта). Стек: Next.js (App Router, TypeScript, Tailwind), pnpm, Node 24. Зависимостей для UI-библиотек нет, все компоненты свои.
+Небольшое приложение: список поездок за день и сводка за день (число поездок, выручка, комиссия, на руки, разбивка наличные/карта). Стек: Next.js (App Router, TypeScript, Tailwind), pnpm, Node 24. Интерфейс собран из компонентов с 21st.dev (календарь, таблица, график, селекторы), примитивы shadcn/ui.
 
 ## Запуск
 
@@ -50,13 +50,13 @@ curl.exe -X POST http://127.0.0.1:3000/api/trips -H "Content-Type: application/j
 pnpm test
 ```
 
-Проверяют: математику сводки, защиту от дублей, ошибки валидации, пустой день, дефолт комиссии, BOM в теле запроса.
+Проверяют: математику сводки, защиту от дублей, ошибки валидации, пустой день, дефолт комиссии, BOM в теле запроса, склонение слов, перевод ошибок API, границы недели, отсутствие русских слов в казахском словаре.
 
 ---
 
 # Driver Shift Diary
 
-Small app: trip list per day plus day summary (trip count, revenue, commission, net payout, cash/card split). Stack: Next.js (App Router, TypeScript, Tailwind), pnpm, Node 24. No UI library dependencies, all components are hand-made.
+Small app: trip list per day plus day summary (trip count, revenue, commission, net payout, cash/card split). Stack: Next.js (App Router, TypeScript, Tailwind), pnpm, Node 24. The UI is composed from 21st.dev components (calendar, data table, line graph, selectors) on top of shadcn/ui primitives.
 
 ## Run
 
@@ -106,4 +106,4 @@ Resending the same `id` returns the stored trip with status 200 and creates no d
 pnpm test
 ```
 
-Cover: summary math, duplicate protection, validation errors, empty day, commission default, BOM in request body.
+Cover: summary math, duplicate protection, validation errors, empty day, commission default, BOM in request body, word plural forms, API error translation, week boundaries, and no Russian words leaking into the Kazakh dictionary.

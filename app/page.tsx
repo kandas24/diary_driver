@@ -13,13 +13,22 @@ import TripsTable from "../components/trips-table";
 import WeekChart, { type WeekPoint } from "../components/week-chart";
 import EtchedAccretion from "../components/ui/etched-accretion";
 
-function weekEnding(date: string): string[] {
+function weekMondayToSunday(date: string): string[] {
   const out: string[] = [];
-  const end = new Date(date + "T12:00:00");
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(end);
-    d.setDate(d.getDate() - i);
-    out.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"));
+  const day = new Date(date + "T12:00:00");
+  const shift = day.getDay() === 0 ? -6 : 1 - day.getDay();
+  const monday = new Date(day);
+  monday.setDate(monday.getDate() + shift);
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(d.getDate() + i);
+    out.push(
+      d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0")
+    );
   }
   return out;
 }
@@ -63,7 +72,7 @@ export default function Page() {
   }, [date, load, lang]);
 
   useEffect(() => {
-    const days = weekEnding(date);
+    const days = weekMondayToSunday(date);
     loadRange(fetch, days[0], days[days.length - 1])
       .then((data) => {
         const totals = new Map<string, number>();

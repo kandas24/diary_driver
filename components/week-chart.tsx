@@ -44,7 +44,7 @@ export default function WeekChart({
     return {
       dates: data.map((d) => {
         const day = parse(d.date, "yyyy-MM-dd", new Date());
-        return format(day, "d MMM", { locale });
+        return `${format(day, "EEEEEE", { locale })} ${format(day, "d", { locale })}`;
       }),
       revenue,
       trips,
