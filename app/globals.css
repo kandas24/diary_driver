@@ -145,6 +145,8 @@ table.ledger th { text-align: left; color: var(--muted); font-size: 0.78rem; tex
 table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.12); }
 table.ledger th:nth-child(n + 2),
 table.ledger td:nth-child(n + 2) { text-align: center; }
+table.ledger th:nth-child(n + 2) button { width: 100%; justify-content: center; }
+table.ledger th:first-child button { width: auto; justify-content: flex-start; }
 table.ledger td:nth-child(1) { white-space: nowrap; }
 .empty { color: var(--muted); }
 
