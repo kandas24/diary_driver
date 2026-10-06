@@ -328,7 +328,7 @@ const CleanWireframeAnalytics = ({
 
           {/* Bottom Metrics */}
           <div className="px-4 pb-6 sm:px-8 sm:pb-8 flex flex-wrap justify-between items-end gap-4">
-            <div className="flex flex-wrap gap-3 sm:gap-4">
+            <div className="flex w-full sm:w-auto flex-wrap gap-3 sm:gap-4">
               {metrics.map((metric: any, index: number) => (
                 <div
                   key={metric.label}
@@ -349,7 +349,7 @@ const CleanWireframeAnalytics = ({
 
             {/* Bundle Size */}
             <div 
-              className={`bg-gray-900 text-white px-6 py-3 rounded-lg transition-all duration-800 ${
+              className={`bg-gray-900 text-white px-4 sm:px-6 py-3 rounded-lg w-full sm:w-auto transition-all duration-800 ${
                 animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               }`}
               style={{ transitionDelay: '2400ms' }}
@@ -358,7 +358,7 @@ const CleanWireframeAnalytics = ({
                 <span className="text-zinc-400 font-medium">{labels.weekTotal}</span>
                 <span className="font-bold">{currentData.peak + currentData.average}</span>
               </div>
-              <div className="w-full sm:w-48 max-w-[192px] h-2 bg-gray-700 rounded-full mt-2 overflow-hidden">
+              <div className="w-full sm:w-48 h-2 bg-gray-700 rounded-full mt-2 overflow-hidden">
                 <div 
                   className={`h-full bg-red-500 rounded-full transition-all duration-2000 ${
                     chartVisible ? 'w-full' : 'w-0'
