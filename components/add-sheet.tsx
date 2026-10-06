@@ -114,8 +114,8 @@ export default function AddSheet({
 
   return (
     <>
-      <button type="button" className="btn-primary" onClick={() => setOpen(true)}>
-        <Plus className="mr-2 h-4 w-4" />
+      <button type="button" className="btn-primary w-full sm:w-auto" onClick={() => setOpen(true)}>
+        <Plus className="h-4 w-4" />
         {t.addTrip}
       </button>
       {open && (
