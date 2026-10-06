@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Globe } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { cn } from "../../lib/cn";
 import type { Lang } from "../../lib/i18n";
 
-const options: Array<{ code: Lang; label: string }> = [
-  { code: "ru", label: "RU" },
-  { code: "en", label: "EN" },
+const languages: Array<{ code: Lang; short: string; label: string; flag: string }> = [
+  { code: "en", short: "US", label: "English", flag: "🇺🇸" },
+  { code: "ru", short: "RU", label: "Русский", flag: "🇷🇺" },
 ];
 
 export default function LanguageDropdown({
@@ -19,7 +19,7 @@ export default function LanguageDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const selected = options.find((o) => o.code === value) ?? options[0];
+  const selected = languages.find((l) => l.code === value) ?? languages[0];
 
   useEffect(() => {
     function outside(e: MouseEvent) {
@@ -44,11 +44,12 @@ export default function LanguageDropdown({
         aria-haspopup="listbox"
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          "flex items-center gap-2 rounded-2xl bg-[#e0263c] px-4 py-2 text-sm font-semibold",
-          "text-[#fff5f5] shadow-[0_4px_18px_rgba(224,38,60,0.45)] transition-all hover:bg-[#ef2f47]"
+          "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
+          "border-[#2a2a2a] bg-[#171717]/90 shadow-sm backdrop-blur-md",
+          "text-[#e5e5e5] transition-all hover:bg-[#262626]"
         )}
       >
-        <Globe className="h-4 w-4" />
+        <span>{selected.flag}</span>
         <span>{selected.label}</span>
         <ChevronDown className="h-4 w-4" />
       </button>
@@ -56,9 +57,9 @@ export default function LanguageDropdown({
         <div
           role="listbox"
           aria-label="language"
-          className="absolute right-0 z-50 mt-2 w-36 animate-fade-in overflow-visible rounded-2xl"
+          className="absolute right-0 z-50 mt-2 w-48 animate-fade-in overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#171717]/95 shadow-lg backdrop-blur-xl"
         >
-          {options.map((lang, i) => (
+          {languages.map((lang) => (
             <button
               key={lang.code}
               type="button"
@@ -69,14 +70,16 @@ export default function LanguageDropdown({
                 setOpen(false);
               }}
               className={cn(
-                "flex w-full items-center gap-2 bg-[#e0263c] px-4 py-3 text-left text-sm font-semibold",
-                "text-[#fff5f5] transition-all hover:bg-[#ef2f47]",
-                i === 0 ? "rounded-2xl" : "-mt-2 rounded-2xl pt-5",
-                value === lang.code && "shadow-[0_4px_18px_rgba(224,38,60,0.45)]"
+                "flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors",
+                value === lang.code
+                  ? "font-semibold text-[#60a5fa]"
+                  : "text-[#e5e5e5] hover:bg-[#262626]"
               )}
             >
-              {value === lang.code && <Globe className="h-4 w-4" />}
+              <span className="text-xs text-[#a3a3a3]">{lang.short}</span>
+              <span>{lang.flag}</span>
               <span className="flex-1">{lang.label}</span>
+              {value === lang.code && <Check className="h-4 w-4 text-[#60a5fa]" />}
             </button>
           ))}
         </div>
