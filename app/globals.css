@@ -148,6 +148,32 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
 .field { display: grid; gap: 0.25rem; }
 .field > span { color: var(--muted); font-size: 0.82rem; }
 
+.datepick { position: relative; z-index: 30; margin-bottom: 1rem; }
+.datepick-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  min-height: 44px;
+  background: rgba(23, 23, 23, 0.7);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.datepick-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  padding: 0.5rem;
+  background: #141414;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
 
 .day.today { border-color: var(--card-border); }
 .day.active { background: var(--accent); color: var(--accent-ink); }
