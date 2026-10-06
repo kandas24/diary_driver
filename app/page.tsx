@@ -98,9 +98,13 @@ export default function Page() {
             <h1>{t.title}</h1>
             <p className="sub">{t.subtitle}</p>
           </div>
-          <LangToggle lang={lang} onChange={setLang} />
         </div>
-        <DatePicker date={date} lang={lang} onChange={setDate} />
+        <div className="picker-row">
+          <DatePicker date={date} lang={lang} onChange={setDate} />
+          <div className="picker-row-lang">
+            <LangToggle lang={lang} onChange={setLang} />
+          </div>
+        </div>
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
           <section aria-label={t.week} style={{ marginBottom: "0.75rem" }}>

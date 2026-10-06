@@ -101,7 +101,7 @@ body {
 .kz-font table.ledger {
   font-family: "Noto Sans Kazakh", "Century Gothic", sans-serif;
 }
-.top { display: flex; align-items: end; justify-content: space-between; gap: 1rem; position: relative; z-index: 60; }
+.top { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
 h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; margin: 0 0 0.25rem; letter-spacing: 0.01em; }
 .card b { font-family: "CodeProLC", "Century Gothic", sans-serif; }
 .sub { color: var(--muted); margin: 0 0 1.5rem; font-size: 0.95rem; }
@@ -154,7 +154,21 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
   border-radius: 20px;
 }
 
-.datepick { position: relative; z-index: 30; margin-bottom: 1rem; }
+.picker-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.picker-row-lang {
+  position: relative;
+  z-index: 100;
+  flex: 0 0 auto;
+}
+
+.datepick { position: relative; z-index: 30; }
 .datepick-trigger {
   display: inline-flex;
   align-items: center;
@@ -165,6 +179,7 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
   color: var(--text);
   border: 1px solid var(--card-border);
   border-radius: 10px;
+  font-size: 1rem;
   font-weight: 500;
   white-space: nowrap;
 }

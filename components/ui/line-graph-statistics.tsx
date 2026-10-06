@@ -303,7 +303,7 @@ const CleanWireframeAnalytics = ({
 
                 {/* Hover Tooltip */}
                 {hoveredPoint !== null && (
-                  <g>
+                  <g style={{ pointerEvents: "none" }}>
                     <rect
                       x={60 + (hoveredPoint / (currentData.dates.length - 1)) * 680 - 50}
                       y={20}

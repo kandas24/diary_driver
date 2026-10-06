@@ -41,11 +41,7 @@ export const Component = ({
       <button
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
-          "bg-neutral-900/90 backdrop-blur-md shadow-sm",
-          "border-neutral-700",
-          "text-neutral-200",
-          "hover:bg-neutral-800 transition-all"
+          "datepick-trigger"
         )}
       >
         <span>{selected.flag}</span>
@@ -57,9 +53,8 @@ export const Component = ({
       {open && (
         <div
           className={cn(
-            "absolute left-0 mt-2 w-48 rounded-xl overflow-hidden",
-            "bg-neutral-900/95 backdrop-blur-xl",
-            "shadow-lg border border-neutral-700",
+            "absolute right-0 mt-2 w-56 rounded-[14px] overflow-hidden",
+            "datepick-panel",
             "z-50",
             "animate-fade-in"
           )}
