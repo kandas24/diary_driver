@@ -96,8 +96,8 @@ export default function AddSheet({
               }}
               onCancel={() => setOpen(false)}
               underCalendar={(range) => (
-                <div className="space-y-4 pt-4">
-                  <div>
+                <div className="flex flex-col gap-4 md:flex-row md:items-end">
+                  <div className="flex-1">
                     <span className="text-sm font-medium">{t.idOptional}</span>
                     <div className="mt-2">
                       <Input
@@ -109,17 +109,17 @@ export default function AddSheet({
                       />
                     </div>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 md:w-auto">
                     <button
                       type="button"
-                      className="btn-secondary flex-1"
+                      className="btn-secondary md:w-32"
                       onClick={() => setOpen(false)}
                     >
                       {t.close}
                     </button>
                     <button
                       type="button"
-                      className="btn-primary flex-1"
+                      className="btn-primary md:w-32"
                       onClick={() => {
                         if (amount === "") {
                           setError(t.errorAmount);

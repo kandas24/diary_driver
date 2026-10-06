@@ -136,7 +136,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
 
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-6">
           {/* Left Side: Calendar */}
-          <div className="flex flex-col justify-between gap-4">
+          <div className="flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <Button variant="ghost" size="icon" onClick={prevMonth} aria-label="Previous month">
                 <ChevronLeft className="w-5 h-5" />
@@ -192,7 +192,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           </div>
 
           {/* Right Side: Inputs */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             <div className="space-y-4">
                {/* Start Date */}
               <div>
@@ -227,9 +227,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           </div>
         {underCalendar ? (
             <div className="col-span-full mt-2 border-t pt-6">
-              <div className="md:max-w-[calc(50%-1rem)]">
-                {underCalendar({ startDate, endDate })}
-              </div>
+              {underCalendar({ startDate, endDate })}
             </div>
           ) : null}
         </CardContent>
