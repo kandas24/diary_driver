@@ -67,7 +67,7 @@ export default function WeekChart({
                 y1={lineStartY}
                 x2={x}
                 y2={lineEndY}
-                stroke={isSelected ? "#22c55e" : "#475569"}
+                stroke={isSelected ? "#e0263c" : "#4a2430"}
                 strokeWidth={isSelected ? 3 : 2}
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
@@ -83,7 +83,7 @@ export default function WeekChart({
                     width={56}
                     height={20}
                     rx={10}
-                    fill="#22c55e"
+                    fill="#e0263c"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.25 }}
@@ -95,7 +95,7 @@ export default function WeekChart({
                     textAnchor="middle"
                     fontSize="10"
                     fontWeight="600"
-                    fill="#052e16"
+                    fill="#fff5f5"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     style={{ pointerEvents: "none" }}
@@ -108,7 +108,7 @@ export default function WeekChart({
                   cx={x}
                   cy={lineEndY - 12}
                   r={3}
-                  fill="#94a3b8"
+                  fill="#a89fa4"
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   style={{ pointerEvents: "none" }}
@@ -121,7 +121,7 @@ export default function WeekChart({
                 dominantBaseline="middle"
                 fontSize="11"
                 fontWeight={isSelected ? "600" : "400"}
-                fill={isSelected ? "#22c55e" : "#94a3b8"}
+                fill={isSelected ? "#e0263c" : "#a89fa4"}
                 style={{ cursor: "pointer" }}
                 onClick={() => onSelect(point.date)}
               >

@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { Banknote, CalendarClock, Hash, Plus, Tag } from "lucide-react";
 import type { Dict as T } from "../lib/i18n";
+import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
   Select,
@@ -10,6 +13,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+
+function Field({
+  label,
+  icon,
+  children,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="field">
+      <span>{label}</span>
+      <span className="relative block">
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
+          {icon}
+        </span>
+        {children}
+      </span>
+    </label>
+  );
+}
 
 export default function AddSheet({
   t,
@@ -59,35 +84,37 @@ export default function AddSheet({
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)}>
-        {t.addTrip}
-      </button>
+      <motion.div whileTap={{ scale: 0.97 }}>
+        <Button type="button" size="lg" onClick={() => setOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          {t.addTrip}
+        </Button>
+      </motion.div>
       {open && (
         <div className="sheet-back" onClick={() => setOpen(false)}>
-          <div
+          <motion.div
             className="sheet"
             role="dialog"
             aria-modal="true"
             aria-label={t.addTrip}
             onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
           >
             <form onSubmit={submit}>
-              <label className="field">
-                <span>{t.idOptional}</span>
-                <Input type="text" name="id" autoComplete="off" />
-              </label>
-              <label className="field">
-                <span>{t.start}</span>
-                <Input type="datetime-local" name="start" required />
-              </label>
-              <label className="field">
-                <span>{t.end}</span>
-                <Input type="datetime-local" name="end" required />
-              </label>
-              <label className="field">
-                <span>{t.amount}</span>
-                <Input type="number" name="amount" min="1" step="any" required />
-              </label>
+              <Field label={t.idOptional} icon={<Hash className="h-4 w-4" />}>
+                <Input type="text" name="id" autoComplete="off" className="pl-9" />
+              </Field>
+              <Field label={t.start} icon={<CalendarClock className="h-4 w-4" />}>
+                <Input type="datetime-local" name="start" required className="pl-9" />
+              </Field>
+              <Field label={t.end} icon={<CalendarClock className="h-4 w-4" />}>
+                <Input type="datetime-local" name="end" required className="pl-9" />
+              </Field>
+              <Field label={t.amount} icon={<Banknote className="h-4 w-4" />}>
+                <Input type="number" name="amount" min="1" step="any" required className="pl-9" />
+              </Field>
               <div className="field">
                 <span id="pay-label">{t.payment}</span>
                 <Select value={payment} onValueChange={setPayment}>
@@ -100,21 +127,29 @@ export default function AddSheet({
                   </SelectContent>
                 </Select>
               </div>
-              <label className="field">
-                <span>{t.commissionOptional}</span>
-                <Input type="number" name="commission" min="0" step="any" />
-              </label>
-              <button type="submit">{t.add}</button>
-              <button type="button" className="ghost" onClick={() => setOpen(false)}>
+              <Field label={t.commissionOptional} icon={<Tag className="h-4 w-4" />}>
+                <Input type="number" name="commission" min="0" step="any" className="pl-9" />
+              </Field>
+              <motion.div whileTap={{ scale: 0.98 }}>
+                <Button type="submit" className="w-full">
+                  {t.add}
+                </Button>
+              </motion.div>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => setOpen(false)}
+              >
                 {t.close}
-              </button>
+              </Button>
               {error && (
                 <div id="error" role="alert">
                   {error}
                 </div>
               )}
             </form>
-          </div>
+          </motion.div>
         </div>
       )}
     </>

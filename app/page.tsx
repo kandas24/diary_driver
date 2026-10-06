@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { CalendarDays } from "lucide-react";
 import { STRINGS, type Lang } from "../lib/i18n";
 import { loadDay, loadRange, today } from "../lib/day";
 import type { Summary, Trip } from "../lib/summary";
@@ -90,7 +91,16 @@ export default function Page() {
         </div>
         <div className="dayrow">
           <label htmlFor="day">{t.day}</label>
-          <input id="day" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <span className="relative inline-flex items-center">
+            <CalendarDays className="pointer-events-none absolute left-3 h-4 w-4 text-[#a89fa4]" />
+            <input
+              id="day"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="pl-9"
+            />
+          </span>
         </div>
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
