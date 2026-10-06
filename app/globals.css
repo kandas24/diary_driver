@@ -129,6 +129,8 @@ h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; 
   border-radius: 999px;
   color: var(--text) !important;
   font-size: 0.72rem !important;
+  text-transform: none;
+  letter-spacing: 0.01em;
   font-weight: 600;
 }
 .card-count i {
