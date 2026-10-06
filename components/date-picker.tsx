@@ -2,29 +2,35 @@
 
 import { useMemo } from "react";
 import { format, parse } from "date-fns";
+import { ru, kk } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
+import type { Lang } from "../lib/i18n";
 
 export default function DatePicker({
   date,
+  lang,
   onChange,
 }: {
   date: string;
+  lang: Lang;
   onChange: (d: string) => void;
 }) {
-  const value = useMemo(() => {
-    const day = parse(date, "yyyy-MM-dd", new Date());
-    return { start: day, end: day };
-  }, [date]);
+  const selected = useMemo(
+    () => parse(date, "yyyy-MM-dd", new Date()),
+    [date]
+  );
+  const locale = lang === "kk" ? kk : lang === "ru" ? ru : undefined;
 
   return (
     <div className="datepick">
       <Calendar
-        horizontalLayout
-        showTimeInput={false}
-        value={value}
-        onChange={(range) => {
-          if (range?.start) onChange(format(range.start, "yyyy-MM-dd"));
+        mode="single"
+        locale={locale}
+        selected={selected}
+        onSelect={(day) => {
+          if (day) onChange(format(day, "yyyy-MM-dd"));
         }}
+        autoFocus
       />
     </div>
   );

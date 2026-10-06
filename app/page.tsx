@@ -91,7 +91,7 @@ export default function Page() {
           </div>
           <LangToggle lang={lang} onChange={setLang} />
         </div>
-        <DatePicker date={date} onChange={setDate} />
+        <DatePicker date={date} lang={lang} onChange={setDate} />
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
           <section className="panel" aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
