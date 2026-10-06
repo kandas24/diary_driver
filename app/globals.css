@@ -229,7 +229,7 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
 .day.today { border-color: var(--card-border); }
 .day.active { background: var(--accent); color: var(--accent-ink); }
 .day.active 
-@layer components {
+
 input, select, button { font-size: 1rem; padding: 0.6rem 0.7rem; border-radius: 10px; min-height: 44px; }
 input, select {
   line-height: 1;
@@ -258,7 +258,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button { cursor: pointer; }
 button:hover { filter: brightness(1.1); }
-}
+
 button.btn-primary {
   display: inline-flex;
   align-items: center;
