@@ -84,4 +84,17 @@ describe("trips route", () => {
     const res = await GET(req("http://x/api/trips?date=nope"));
     expect(res.status).toBe(400);
   });
+
+  it("returns range with from and to", async () => {
+    const res = await GET(req("http://x/api/trips?from=2026-10-01&to=2026-10-02"));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.summary.count).toBe(2);
+    expect(body.summary.revenue).toBe(3900);
+  });
+
+  it("rejects bad range with 400", async () => {
+    const res = await GET(req("http://x/api/trips?from=nope&to=2026-10-02"));
+    expect(res.status).toBe(400);
+  });
 });

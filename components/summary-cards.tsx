@@ -11,13 +11,18 @@ export default function SummaryCards({ summary, t }: { summary: Summary; t: T })
     [t.card, summary.card.total + " / " + summary.card.count, false],
   ];
   return (
-    <ul className="cards" aria-live="polite">
-      {cards.map(([label, value, hero]) => (
-        <li key={label} className={hero ? "card hero" : "card"}>
-          <b>{value}</b>
-          <span>{label}</span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="cards" aria-live="polite">
+        {cards.map(([label, value, hero]) => (
+          <li key={label} className={hero ? "card hero" : "card"}>
+            <b>{value}</b>
+            <span>{label}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="sub">
+        {t.peak}: {summary.peak} · {t.low}: {summary.low} · {t.avg}: {summary.avg}
+      </p>
+    </>
   );
 }

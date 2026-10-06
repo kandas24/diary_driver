@@ -19,3 +19,13 @@ export async function loadDay(fetchJson: Fetcher, date: string): Promise<DayData
   }
   return { trips: data.trips, summary: data.summary };
 }
+
+export async function loadRange(fetchJson: Fetcher, from: string, to: string): Promise<DayData> {
+  const res = await fetchJson("/api/trips?from=" + from + "&to=" + to);
+  if (!res.ok) throw new Error("bad status");
+  const data = (await res.json()) as Partial<DayData>;
+  if (!Array.isArray(data.trips) || typeof data.summary !== "object" || data.summary === null) {
+    throw new Error("bad shape");
+  }
+  return { trips: data.trips, summary: data.summary };
+}

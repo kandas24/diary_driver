@@ -2,18 +2,31 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS, type Lang } from "../lib/i18n";
-import { loadDay, today } from "../lib/day";
+import { loadDay, loadRange, today } from "../lib/day";
 import type { Summary, Trip } from "../lib/summary";
 import AddSheet from "../components/add-sheet";
 import LangToggle from "../components/lang-toggle";
 import SummaryCards from "../components/summary-cards";
 import TripTimeline from "../components/trip-timeline";
+import WeekChart, { type WeekPoint } from "../components/week-chart";
+
+function weekEnding(date: string): string[] {
+  const out: string[] = [];
+  const end = new Date(date + "T12:00:00");
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(end);
+    d.setDate(d.getDate() - i);
+    out.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"));
+  }
+  return out;
+}
 
 export default function Page() {
   const [date, setDate] = useState(today);
   const [lang, setLang] = useState<Lang>("ru");
   const [trips, setTrips] = useState<Trip[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
+  const [week, setWeek] = useState<WeekPoint[]>([]);
   const [failed, setFailed] = useState(false);
   const [note, setNote] = useState("");
 
@@ -45,6 +58,22 @@ export default function Page() {
     load(date);
   }, [date, load, lang]);
 
+  useEffect(() => {
+    const days = weekEnding(date);
+    loadRange(fetch, days[0], days[days.length - 1])
+      .then((data) => {
+        const totals = new Map<string, number>();
+        for (const trip of data.trips) {
+          const day = trip.start.slice(0, 10);
+          totals.set(day, (totals.get(day) ?? 0) + trip.amount);
+        }
+        setWeek(days.map((d) => ({ date: d, label: String(Number(d.slice(8, 10))), value: totals.get(d) ?? 0 })));
+      })
+      .catch(() => {
+        setWeek([]);
+      });
+  }, [date]);
+
   return (
     <main className="wrap">
       <div className="top">
@@ -58,6 +87,11 @@ export default function Page() {
         <label htmlFor="day">{t.day}</label>
         <input id="day" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </div>
+      {week.length > 0 && (
+        <section className="panel" aria-label={t.week} style={{ marginBottom: "1rem" }}>
+          <WeekChart data={week} selected={date} onSelect={setDate} />
+        </section>
+      )}
       {summary && <SummaryCards summary={summary} t={t} />}
       <section className="panel" aria-label={t.trips}>
         <h2>{t.trips}</h2>

@@ -13,6 +13,9 @@ describe("calcSummary", () => {
       net: 3315,
       cash: { count: 1, total: 1500 },
       card: { count: 1, total: 2400 },
+      peak: 2400,
+      low: 1500,
+      avg: 1950,
     });
   });
 
@@ -24,6 +27,9 @@ describe("calcSummary", () => {
       net: 0,
       cash: { count: 0, total: 0 },
       card: { count: 0, total: 0 },
+      peak: 0,
+      low: 0,
+      avg: 0,
     });
   });
 });

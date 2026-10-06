@@ -6,11 +6,26 @@ import { parseBody, validateTrip } from "../../../lib/validate";
 export const runtime = "nodejs";
 
 export async function GET(req: Request): Promise<NextResponse> {
-  const date = new URL(req.url).searchParams.get("date") ?? "";
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+  const params = new URL(req.url).searchParams;
+  const date = params.get("date") ?? "";
+  const from = params.get("from") ?? "";
+  const to = params.get("to") ?? "";
+  const isDay = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s);
+  const all = loadTrips();
+  if (from !== "" || to !== "") {
+    if (!isDay(from) || !isDay(to) || to < from) {
+      return NextResponse.json({ error: "from/to query params required, YYYY-MM-DD" }, { status: 400 });
+    }
+    const trips = all.filter((t) => {
+      const day = t.start.slice(0, 10);
+      return day >= from && day <= to;
+    });
+    return NextResponse.json({ from, to, trips, summary: calcSummary(trips) });
+  }
+  if (!isDay(date)) {
     return NextResponse.json({ error: "date query param required, YYYY-MM-DD" }, { status: 400 });
   }
-  const trips = loadTrips().filter((t) => t.start.startsWith(date));
+  const trips = all.filter((t) => t.start.startsWith(date));
   return NextResponse.json({ date, trips, summary: calcSummary(trips) });
 }
 
