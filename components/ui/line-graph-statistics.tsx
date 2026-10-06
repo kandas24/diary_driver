@@ -123,10 +123,10 @@ const CleanWireframeAnalytics = ({
         <div className="relative bg-zinc-950 rounded-none shadow-sm border border-white/10">
           
           {/* Legend */}
-          <div className="absolute top-8 left-8 z-10 flex gap-8">
+          <div className="absolute top-3 left-4 sm:top-8 sm:left-8 z-10 flex gap-4 sm:gap-8">
             <div 
               className={`flex items-center gap-2 transition-all duration-800 delay-300 ${
-                animationPhase >= 2 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                animationPhase >= 2 ? 'opacity-100' : 'opacity-0'
               }`}
             >
               <span className="text-zinc-400 font-medium">{labels.revenue}</span>
@@ -135,7 +135,7 @@ const CleanWireframeAnalytics = ({
             </div>
             <div 
               className={`flex items-center gap-2 transition-all duration-800 delay-400 ${
-                animationPhase >= 2 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                animationPhase >= 2 ? 'opacity-100' : 'opacity-0'
               }`}
             >
               <span className="text-zinc-400 font-medium">{labels.trips}</span>
@@ -145,8 +145,8 @@ const CleanWireframeAnalytics = ({
           </div>
 
           {/* Chart Area */}
-          <div className="p-8 pt-20 pb-16">
-            <div className="h-96 relative">
+          <div className="p-4 pt-14 sm:p-8 sm:pt-20 sm:pb-16">
+            <div className="relative w-full aspect-[2/1] min-h-[160px] max-h-[384px]">
               <svg className="w-full h-full" viewBox="0 0 800 400">
                 {/* Background Grid */}
                 <defs>
@@ -341,10 +341,6 @@ const CleanWireframeAnalytics = ({
                     transitionDelay: `${1800 + index * 200}ms`
                   }}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-zinc-500"></div>
-                    <span className="text-xs text-zinc-500 font-medium">{metric.size}</span>
-                  </div>
                   <div className="text-2xl font-bold text-zinc-100 mb-1">{metric.value}</div>
                   <div className="text-sm text-zinc-400 font-medium">{metric.label}</div>
                 </div>
