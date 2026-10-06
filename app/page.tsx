@@ -7,8 +7,9 @@ import type { Summary, Trip } from "../lib/summary";
 import AddSheet from "../components/add-sheet";
 import LangToggle from "../components/lang-toggle";
 import SummaryCards from "../components/summary-cards";
-import TripTimeline from "../components/trip-timeline";
+import TripsTable from "../components/trips-table";
 import WeekChart, { type WeekPoint } from "../components/week-chart";
+import EtchedAccretion from "../components/ui/etched-accretion";
 
 function weekEnding(date: string): string[] {
   const out: string[] = [];
@@ -75,47 +76,56 @@ export default function Page() {
   }, [date]);
 
   return (
-    <main className="wrap">
-      <div className="top">
-        <div>
-          <h1>{t.title}</h1>
-          <p className="sub">{t.subtitle}</p>
+    <>
+      <div className="bg-hole" aria-hidden>
+        <EtchedAccretion preset="crimson" height="100vh" params={{ flare: 0.6 }} />
+      </div>
+      <main className="wrap">
+        <div className="top">
+          <div>
+            <h1>{t.title}</h1>
+            <p className="sub">{t.subtitle}</p>
+          </div>
+          <LangToggle lang={lang} onChange={setLang} />
         </div>
-        <LangToggle lang={lang} onChange={setLang} />
-      </div>
-      <div className="dayrow">
-        <label htmlFor="day">{t.day}</label>
-        <input id="day" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-      </div>
-      {week.length > 0 && (
-        <section className="panel" aria-label={t.week} style={{ marginBottom: "1rem" }}>
-          <WeekChart data={week} selected={date} onSelect={setDate} />
+        <div className="dayrow">
+          <label htmlFor="day">{t.day}</label>
+          <input id="day" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        </div>
+        {summary && <SummaryCards summary={summary} t={t} />}
+        {week.length > 0 && (
+          <section className="panel" aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
+            <WeekChart data={week} selected={date} onSelect={setDate} />
+          </section>
+        )}
+        <section className="panel" aria-label={t.trips}>
+          <h2>{t.trips}</h2>
+          {trips.length === 0 ? (
+            <p className="empty">{t.emptyDay}</p>
+          ) : (
+            <TripsTable trips={trips} t={t} />
+          )}
         </section>
-      )}
-      {summary && <SummaryCards summary={summary} t={t} />}
-      <section className="panel" aria-label={t.trips}>
-        <h2>{t.trips}</h2>
-        <TripTimeline trips={trips} t={t} />
-      </section>
-      <div style={{ marginTop: "1rem" }}>
-        <AddSheet
-          t={t}
-          onAdded={(n) => {
-            setNote(n === "dupe" ? t.dupe : t.saved);
-            load(date);
-          }}
-        />
-      </div>
-      {failed && (
-        <div id="error" role="alert">
-          {t.serverError}
+        <div style={{ marginTop: "1rem" }}>
+          <AddSheet
+            t={t}
+            onAdded={(n) => {
+              setNote(n === "dupe" ? t.dupe : t.saved);
+              load(date);
+            }}
+          />
         </div>
-      )}
-      {note && (
-        <div id="ok" role="status">
-          {note}
-        </div>
-      )}
-    </main>
+        {failed && (
+          <div id="error" role="alert">
+            {t.serverError}
+          </div>
+        )}
+        {note && (
+          <div id="ok" role="status">
+            {note}
+          </div>
+        )}
+      </main>
+    </>
   );
 }

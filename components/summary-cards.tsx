@@ -12,9 +12,9 @@ export default function SummaryCards({ summary, t }: { summary: Summary; t: T })
   ];
   return (
     <>
-      <ul className="cards" aria-live="polite">
+      <ul className="bento" aria-live="polite">
         {cards.map(([label, value, hero]) => (
-          <li key={label} className={hero ? "card hero" : "card"}>
+          <li key={label} className={(hero ? "card hero" : "card") + " span-2"}>
             <b>{value}</b>
             <span>{label}</span>
           </li>

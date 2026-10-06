@@ -32,6 +32,7 @@ export const STRINGS: Record<Lang, Dict> = {
     low: "Мин",
     avg: "Сред",
     week: "Неделя",
+    time: "Время",
   },
   en: {    title: "Driver shift diary",
     subtitle: "Trips and payout per day.",
@@ -61,5 +62,6 @@ export const STRINGS: Record<Lang, Dict> = {
     low: "Low",
     avg: "Avg",
     week: "Week",
+    time: "Time",
   },
 };
