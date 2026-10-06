@@ -1,7 +1,7 @@
 "use client";
 
 import type { Lang } from "../lib/i18n";
-import { SegmentedControl } from "./ui/segmented-control";
+import LanguageDropdown from "./ui/language-dropdown";
 
 export default function LangToggle({
   lang,
@@ -10,17 +10,5 @@ export default function LangToggle({
   lang: Lang;
   onChange: (l: Lang) => void;
 }) {
-  return (
-    <SegmentedControl
-      label="language"
-      value={lang}
-      onValueChange={(v) => {
-        if (v === "ru" || v === "en") onChange(v);
-      }}
-      options={[
-        { value: "ru", label: "RU" },
-        { value: "en", label: "EN" },
-      ]}
-    />
-  );
+  return <LanguageDropdown value={lang} onValueChange={onChange} />;
 }
