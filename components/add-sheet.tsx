@@ -86,6 +86,7 @@ export default function AddSheet({
               description={t.sheetHint}
               scheduleButtonText={t.add}
               cancelButtonText={t.close}
+              showFooter={false}
               onSchedule={(d) => {
                 if (amount === "") {
                   setError(t.errorAmount);
@@ -94,20 +95,46 @@ export default function AddSheet({
                 submit({ startDate: d.startDate, endDate: d.endDate });
               }}
               onCancel={() => setOpen(false)}
-            >
-              <div className="space-y-4 pt-4">
-                <div>
-                  <span className="text-sm font-medium">{t.idOptional}</span>
-                  <div className="mt-2">
-                    <Input
-                      type="text"
-                      autoComplete="off"
-                      value={id}
-                      placeholder={t.idPlaceholder}
-                      onChange={(e) => setId(e.target.value)}
-                    />
+              underCalendar={(range) => (
+                <div className="space-y-4 pt-4">
+                  <div>
+                    <span className="text-sm font-medium">{t.idOptional}</span>
+                    <div className="mt-2">
+                      <Input
+                        type="text"
+                        autoComplete="off"
+                        value={id}
+                        placeholder={t.idPlaceholder}
+                        onChange={(e) => setId(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      className="btn-secondary flex-1"
+                      onClick={() => setOpen(false)}
+                    >
+                      {t.close}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary flex-1"
+                      onClick={() => {
+                        if (amount === "") {
+                          setError(t.errorAmount);
+                          return;
+                        }
+                        submit(range);
+                      }}
+                    >
+                      {t.add}
+                    </button>
                   </div>
                 </div>
+              )}
+            >
+              <div className="space-y-4 pt-4">
                 <div>
                   <span className="text-sm font-medium">{t.amount}</span>
                   <div className="relative mt-2">
@@ -124,7 +151,9 @@ export default function AddSheet({
                   </div>
                 </div>
                 <div>
-                  <span className="text-sm font-medium">{t.payMethod}</span>
+                  <span id="pay-label" className="text-sm font-medium">
+                    {t.payMethod}
+                  </span>
                   <div className="mt-2">
                     <Select value={payment} onValueChange={setPayment}>
                       <SelectTrigger aria-labelledby="pay-label">

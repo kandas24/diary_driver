@@ -44,8 +44,15 @@ interface MeetingSchedulerProps {
   onSchedule: (details: { startDate: Date | null; endDate: Date | null; aiNotes: boolean }) => void;
   /** Callback function when the cancel button is clicked. */
   onCancel: () => void;
-  /** Extra fields rendered in the right column under the AI toggle. */
+  /** Extra fields rendered in the right column under the dates. */
   children?: React.ReactNode;
+  /** Render function receiving the current date range, placed under the calendar. */
+  underCalendar?: (range: {
+    startDate: Date | null;
+    endDate: Date | null;
+  }) => React.ReactNode;
+  /** Whether the built-in footer with buttons is rendered. */
+  showFooter?: boolean;
   /** Label for the toggle row. */
   toggleLabel?: string;
 }
@@ -64,7 +71,9 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   onSchedule,
   onCancel,
   children,
+  underCalendar,
   toggleLabel = "Enable AI notes",
+  showFooter = true,
 }) => {
   // State management
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(initialStartDate || new Date()));
@@ -180,9 +189,9 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 );
               })}
             </div>
-            {children}
+            {underCalendar ? underCalendar({ startDate, endDate }) : null}
           </div>
-          
+
           {/* Right Side: Inputs */}
           <div className="flex flex-col justify-between space-y-6">
             <div className="space-y-4">
@@ -204,9 +213,10 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 </div>
               </div>
 
-              </div>
+              {children}
+            </div>
 
-            {/* Footer section */}
+            {showFooter ? (
             <div className="pt-4 border-t">
                 <p className="text-sm text-muted-foreground mb-4">{getEventSummary()}</p>
                 <div className="flex justify-end gap-3">
@@ -214,6 +224,11 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                     <Button onClick={handleSchedule} disabled={!startDate || !endDate}>{scheduleButtonText}</Button>
                 </div>
             </div>
+          ) : (
+            <div className="pt-4 border-t">
+                <p className="text-sm text-muted-foreground">{getEventSummary()}</p>
+            </div>
+          )}
           </div>
         </CardContent>
       </motion.div>

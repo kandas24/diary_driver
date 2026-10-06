@@ -152,6 +152,15 @@ button.btn-primary {
   padding: 0.6rem 0.9rem;
   min-height: 44px;
 }
+button.btn-secondary {
+  border-radius: 10px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--card-border);
+  padding: 0.6rem 0.9rem;
+  min-height: 44px;
+}
 #error { color: var(--danger); min-height: 1.2rem; }
 #ok { color: var(--accent); min-height: 1.2rem; }
 
