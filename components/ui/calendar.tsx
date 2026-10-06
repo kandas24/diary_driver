@@ -719,7 +719,7 @@ export const Calendar = ({
                 }
               </div>
             </Button>
-            {value?.start && value?.end && (
+            {allowClear && value?.start && value?.end && (
               <Button
                 aria-label="Clear input value"
                 svgOnly
