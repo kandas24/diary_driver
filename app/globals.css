@@ -120,23 +120,11 @@ h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; 
 .card b { display: block; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
 .card span { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .card-count {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-bottom: 0.5rem;
-  padding: 0.15rem 0.5rem;
-  border: 1px solid var(--card-border);
-  border-radius: 999px;
-  color: var(--text) !important;
+  margin-top: 0.25rem;
+  color: var(--muted) !important;
   font-size: 0.72rem !important;
   text-transform: none;
   letter-spacing: 0.01em;
-  font-weight: 600;
-}
-.card-count i {
-  font-style: normal;
-  font-size: 0.85rem;
-  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
 .card.hero { border-color: rgba(231, 229, 228, 0.3); box-shadow: 0 0 24px rgba(231, 229, 228, 0.12); }

@@ -23,13 +23,12 @@ export default function SummaryCards({ summary, t }: { summary: Summary; t: T })
             key={card.label}
             className={(card.hero ? "card hero" : "card") + " span-2"}
           >
+            <b>{card.value}</b>
             {card.count !== undefined && (
               <span className="card-count">
-                <i>{card.count}</i>
-                {t.tripsWord}
+                {card.count} {t.tripsWord}
               </span>
             )}
-            <b>{card.value}</b>
             <span>{card.label}</span>
           </li>
         ))}
