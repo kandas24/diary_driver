@@ -67,11 +67,20 @@ export default function Page() {
     loadRange(fetch, days[0], days[days.length - 1])
       .then((data) => {
         const totals = new Map<string, number>();
+        const counts = new Map<string, number>();
         for (const trip of data.trips) {
           const day = trip.start.slice(0, 10);
           totals.set(day, (totals.get(day) ?? 0) + trip.amount);
+          counts.set(day, (counts.get(day) ?? 0) + 1);
         }
-        setWeek(days.map((d) => ({ date: d, label: String(Number(d.slice(8, 10))), value: totals.get(d) ?? 0 })));
+        setWeek(
+          days.map((d) => ({
+            date: d,
+            label: String(Number(d.slice(8, 10))),
+            value: totals.get(d) ?? 0,
+            trips: counts.get(d) ?? 0,
+          }))
+        );
       })
       .catch(() => {
         setWeek([]);
@@ -94,8 +103,8 @@ export default function Page() {
         <DatePicker date={date} lang={lang} onChange={setDate} />
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
-          <section className="panel" aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
-            <WeekChart data={week} selected={date} onSelect={setDate} />
+          <section aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
+            <WeekChart data={week} selected={date} lang={lang} t={t} onSelect={setDate} />
           </section>
         )}
         <section className="panel" aria-label={t.trips}>

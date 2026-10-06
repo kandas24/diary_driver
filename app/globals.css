@@ -148,6 +148,13 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
 .field { display: grid; gap: 0.25rem; }
 .field > span { color: var(--muted); font-size: 0.82rem; }
 
+.stats {
+  width: 100%;
+  color: var(--text);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
 .datepick { position: relative; z-index: 30; margin-bottom: 1rem; }
 .datepick-trigger {
   display: inline-flex;
