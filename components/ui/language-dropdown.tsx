@@ -1,88 +1,91 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "../../lib/cn";
-import type { Lang } from "../../lib/i18n";
+import { ChevronDown, Check } from "lucide-react";
 
-const languages: Array<{ code: Lang; label: string; flag: string }> = [
+const languages = [
   { code: "en", label: "English", flag: "🇺🇸" },
   { code: "ru", label: "Русский", flag: "🇷🇺" },
 ];
 
-export default function LanguageDropdown({
+export const Component = ({
   value,
   onValueChange,
 }: {
-  value: Lang;
-  onValueChange: (l: Lang) => void;
-}) {
+  value: string;
+  onValueChange: (code: string) => void;
+}) => {
+  const [selected, setSelected] = useState(
+    languages.find((l) => l.code === value) ?? languages[0]
+  );
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const selected = languages.find((l) => l.code === value) ?? languages[0];
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function outside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    setSelected(languages.find((l) => l.code === value) ?? languages[0]);
+  }, [value]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
     }
-    function esc(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("mousedown", outside);
-    document.addEventListener("keydown", esc);
-    return () => {
-      document.removeEventListener("mousedown", outside);
-      document.removeEventListener("keydown", esc);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="relative inline-block" ref={ref}>
+    <div className="relative inline-block" ref={dropdownRef}>
+      {/* Trigger Button */}
       <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="listbox"
         onClick={() => setOpen((o) => !o)}
         className={cn(
           "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
-          "border-[#2a2a2a] bg-[#171717]/90 shadow-sm backdrop-blur-md",
-          "text-[#e5e5e5] transition-all hover:bg-[#262626]"
+          "bg-white/60 dark:bg-neutral-900/90 backdrop-blur-md shadow-sm",
+          "border-gray-200 dark:border-neutral-700",
+          "text-gray-800 dark:text-neutral-200",
+          "hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all"
         )}
       >
         <span>{selected.flag}</span>
         <span>{selected.label}</span>
         <ChevronDown className="h-4 w-4" />
       </button>
+
+      {/* Dropdown Menu */}
       {open && (
         <div
-          role="listbox"
-          aria-label="language"
-          className="absolute right-0 z-50 mt-2 w-48 animate-fade-in overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#171717]/95 shadow-lg backdrop-blur-xl"
+          className={cn(
+            "absolute left-0 mt-2 w-48 rounded-xl overflow-hidden",
+            "bg-white/90 dark:bg-neutral-900/95 backdrop-blur-xl",
+            "shadow-lg border border-gray-200 dark:border-neutral-700",
+            "animate-fade-in"
+          )}
         >
           {languages.map((lang) => (
             <button
               key={lang.code}
-              type="button"
-              role="option"
-              aria-selected={value === lang.code}
               onClick={() => {
-                onValueChange(lang.code);
+                setSelected(lang);
                 setOpen(false);
+                onValueChange(lang.code);
               }}
               className={cn(
-                "flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors",
-                value === lang.code
-                  ? "font-semibold text-[#60a5fa]"
-                  : "text-[#e5e5e5] hover:bg-[#262626]"
+                "flex items-center gap-2 w-full px-3 py-2 text-sm text-left transition-colors",
+                selected.code === lang.code
+                  ? "font-semibold text-blue-600 dark:text-blue-400"
+                  : "text-gray-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800"
               )}
             >
               <span>{lang.flag}</span>
               <span className="flex-1">{lang.label}</span>
-              {value === lang.code && <Check className="h-4 w-4 text-[#60a5fa]" />}
+              {selected.code === lang.code && (
+                <Check className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+              )}
             </button>
           ))}
         </div>
       )}
     </div>
   );
-}
+};

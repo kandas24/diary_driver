@@ -1,7 +1,7 @@
 "use client";
 
 import type { Lang } from "../lib/i18n";
-import LanguageDropdown from "./ui/language-dropdown";
+import { Component } from "./ui/language-dropdown";
 
 export default function LangToggle({
   lang,
@@ -10,5 +10,5 @@ export default function LangToggle({
   lang: Lang;
   onChange: (l: Lang) => void;
 }) {
-  return <LanguageDropdown value={lang} onValueChange={onChange} />;
+  return <Component value={lang} onValueChange={(c) => onChange(c as Lang)} />;
 }
