@@ -58,7 +58,7 @@ interface MeetingSchedulerProps {
   /** Initial selected end date. */
   initialEndDate?: Date;
   /** Callback function when the schedule button is clicked. */
-  onSchedule: (details: { startDate: Date | null; endDate: Date | null; aiNotes: boolean }) => void;
+  onSchedule: (details: { startDate: Date | null; endDate: Date | null; aiNotes: boolean; startTime: string; endTime: string }) => void;
   /** Callback function when the cancel button is clicked. */
   onCancel: () => void;
   /** Extra fields rendered in the right column under the dates. */
@@ -106,6 +106,8 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const [startDate, setStartDate] = useState<Date | null>(initialStartDate || null);
   const [endDate, setEndDate] = useState<Date | null>(initialEndDate || null);
   const [aiNotes, setAiNotes] = useState(false);
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("00:00");
 
   // Calendar logic
   const days = eachDayOfInterval({
@@ -145,7 +147,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const handleSchedule = () => {
     // In a real app, you'd likely parse time from inputs and combine with date
     // For this example, we pass the full date object
-    onSchedule({ startDate, endDate, aiNotes });
+    onSchedule({ startDate, endDate, aiNotes, startTime, endTime });
   };
 
   return (
@@ -231,18 +233,30 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                {/* Start Date */}
               <div>
                 <Label htmlFor="start-date" className="text-sm font-medium">{startLabel}</Label>
-                <div className="flex items-center mt-2 p-3 rounded-md border bg-background">
+                <div className="flex items-center mt-2 gap-2 p-3 rounded-md border bg-background">
                   <span className="text-sm flex-grow">{formatLongDate(startDate)}</span>
-                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTimeLocal(startDate)}</span>
+                  <input
+                    type="time"
+                    aria-label={startLabel}
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md border-0"
+                  />
                 </div>
               </div>
 
                {/* End Date */}
               <div>
                 <Label htmlFor="end-date" className="text-sm font-medium">{endLabel}</Label>
-                <div className="flex items-center mt-2 p-3 rounded-md border bg-background">
+                <div className="flex items-center mt-2 gap-2 p-3 rounded-md border bg-background">
                   <span className="text-sm flex-grow">{formatLongDate(endDate)}</span>
-                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTimeLocal(endDate)}</span>
+                  <input
+                    type="time"
+                    aria-label={endLabel}
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                    className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md border-0"
+                  />
                 </div>
               </div>
 

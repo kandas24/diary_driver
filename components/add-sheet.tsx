@@ -29,7 +29,12 @@ export default function AddSheet({
   const [amount, setAmount] = useState("");
   const [commission, setCommission] = useState("");
 
-  async function submit(range: { startDate: Date | null; endDate: Date | null }) {
+  async function submit(range: {
+    startDate: Date | null;
+    endDate: Date | null;
+    startTime?: string;
+    endTime?: string;
+  }) {
     setError("");
     const start = range.startDate;
     const end = range.endDate;
@@ -37,9 +42,16 @@ export default function AddSheet({
       setError(t.errorDates);
       return;
     }
+    const withTime = (d: Date, hhmm?: string) => {
+      if (!hhmm) return d;
+      const [h, m] = hhmm.split(":").map(Number);
+      const out = new Date(d);
+      out.setHours(h, m, 0, 0);
+      return out;
+    };
     const body: Record<string, unknown> = {
-      start: start.toISOString(),
-      end: end.toISOString(),
+      start: withTime(start, range.startTime).toISOString(),
+      end: withTime(end, range.endTime).toISOString(),
       amount: Number(amount),
       payment,
     };
