@@ -264,7 +264,7 @@ const CleanWireframeAnalytics = ({
                           chartVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                         }`}
                         style={{
-                          transitionDelay: `${1300 + index * 100}ms`
+                          transitionDelay: `${900 + (2000 * index) / Math.max(currentData.dates.length - 1, 1)}ms`
                         }}
                         onMouseEnter={() => setHoveredPoint(index)}
                         onMouseLeave={() => setHoveredPoint(null)}
@@ -302,11 +302,20 @@ const CleanWireframeAnalytics = ({
                 })}
 
                 {/* Hover Tooltip */}
-                {hoveredPoint !== null && (
+                {hoveredPoint !== null && (() => {
+                  const pad = 60;
+                  const ch = 340 - pad * 2;
+                  const cx = 60 + (hoveredPoint / (currentData.dates.length - 1)) * 680;
+                  const topY = Math.min(
+                    pad + (1 - mobile[hoveredPoint] / maxValue) * ch,
+                    pad + (1 - desktop[hoveredPoint] / maxValue) * ch
+                  );
+                  const ty = Math.max(8, topY - 82);
+                  return (
                   <g style={{ pointerEvents: "none" }}>
                     <rect
-                      x={60 + (hoveredPoint / (currentData.dates.length - 1)) * 680 - 50}
-                      y={20}
+                      x={cx - 50}
+                      y={ty}
                       width="100"
                       height="70"
                       fill="#18181b"
@@ -316,8 +325,8 @@ const CleanWireframeAnalytics = ({
                       className="drop-shadow-xl"
                     />
                     <text
-                      x={60 + (hoveredPoint / (currentData.dates.length - 1)) * 680}
-                      y={38}
+                      x={cx}
+                      y={ty + 18}
                       textAnchor="middle"
                       fill="#fafafa"
                       fontSize="12"
@@ -326,8 +335,8 @@ const CleanWireframeAnalytics = ({
                       {currentData.dates[hoveredPoint]}
                     </text>
                     <text
-                      x={60 + (hoveredPoint / (currentData.dates.length - 1)) * 680}
-                      y={55}
+                      x={cx}
+                      y={ty + 35}
                       textAnchor="middle"
                       fill="#ef4444"
                       fontSize="11"
@@ -336,8 +345,8 @@ const CleanWireframeAnalytics = ({
                       {labels.revenue}: {mobile[hoveredPoint]}
                     </text>
                     <text
-                      x={60 + (hoveredPoint / (currentData.dates.length - 1)) * 680}
-                      y={72}
+                      x={cx}
+                      y={ty + 52}
                       textAnchor="middle"
                       fill="#a1a1aa"
                       fontSize="11"
@@ -346,7 +355,8 @@ const CleanWireframeAnalytics = ({
                       {labels.trips}: {desktop[hoveredPoint]}
                     </text>
                   </g>
-                )}
+                  );
+                })()}
               </svg>
             </div>
           </div>

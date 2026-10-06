@@ -54,7 +54,7 @@ export const Component = ({
         <div
           className={cn(
             "absolute right-0 mt-2 w-56 rounded-[14px] overflow-hidden",
-            "datepick-panel",
+            "datepick-panel lang-panel",
             "z-50",
             "animate-fade-in"
           )}

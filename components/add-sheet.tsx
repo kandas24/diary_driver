@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Banknote, Plus, Tag } from "lucide-react";
 import type { Dict as T, Lang } from "../lib/i18n";
 import { MeetingScheduler } from "./ui/meeting-scheduler";
@@ -28,6 +28,15 @@ export default function AddSheet({
   const [id, setId] = useState("");
   const [amount, setAmount] = useState("");
   const [commission, setCommission] = useState("");
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
 
   async function submit(range: {
     startDate: Date | null;
