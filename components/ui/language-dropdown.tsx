@@ -43,7 +43,7 @@ export const Component = ({
         className={cn(
           "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
           "bg-neutral-900/90 backdrop-blur-md shadow-sm",
-          "border-[#e0263c]",
+          "border-neutral-700",
           "text-neutral-200",
           "hover:bg-neutral-800 transition-all"
         )}

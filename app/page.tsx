@@ -33,6 +33,7 @@ export default function Page() {
   const [note, setNote] = useState("");
 
   const t = STRINGS[lang];
+  const fontClass = lang === "kk" ? "kz-font" : "";
 
   const load = useCallback(async (d: string) => {
     setFailed(false);
@@ -81,7 +82,7 @@ export default function Page() {
       <div className="bg-hole" aria-hidden>
         <EtchedAccretion preset="crimson" height="100vh" params={{ flare: 0.6 }} />
       </div>
-      <main className="wrap">
+      <main className={fontClass ? "wrap " + fontClass : "wrap"}>
         <div className="top">
           <div>
             <h1>{t.title}</h1>

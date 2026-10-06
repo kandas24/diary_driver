@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Banknote, CalendarClock, Hash, Plus, Tag } from "lucide-react";
+import { Banknote, Plus, Tag } from "lucide-react";
 import type { Dict as T } from "../lib/i18n";
-import { Button } from "./ui/button";
+import { MeetingScheduler } from "./ui/meeting-scheduler";
 import { Input } from "./ui/input";
 import {
   Select,
@@ -13,28 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
-function Field({
-  label,
-  icon,
-  children,
-}: {
-  label: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="field">
-      <span>{label}</span>
-      <span className="relative block">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
-          {icon}
-        </span>
-        {children}
-      </span>
-    </label>
-  );
-}
 
 export default function AddSheet({
   t,
@@ -46,22 +23,26 @@ export default function AddSheet({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const [payment, setPayment] = useState("card");
+  const [id, setId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [commission, setCommission] = useState("");
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function submit(range: { startDate: Date | null; endDate: Date | null }) {
     setError("");
-    const f = new FormData(e.currentTarget);
-    const num = (k: string) => (String(f.get(k) ?? "") === "" ? undefined : Number(f.get(k)));
+    const start = range.startDate;
+    const end = range.endDate;
+    if (!start || !end) {
+      setError(t.errorDates);
+      return;
+    }
     const body: Record<string, unknown> = {
-      start: String(f.get("start") ?? ""),
-      end: String(f.get("end") ?? ""),
-      amount: Number(f.get("amount")),
+      start: start.toISOString(),
+      end: end.toISOString(),
+      amount: Number(amount),
       payment,
     };
-    const id = String(f.get("id") ?? "");
     if (id) body.id = id;
-    const commission = num("commission");
-    if (commission !== undefined) body.commission = commission;
+    if (commission !== "") body.commission = Number(commission);
     let res: Response;
     try {
       res = await fetch("/api/trips", {
@@ -80,41 +61,57 @@ export default function AddSheet({
     }
     onAdded(res.status === 200 ? "dupe" : "saved");
     setOpen(false);
+    setAmount("");
+    setCommission("");
+    setId("");
   }
 
   return (
     <>
-      <motion.div whileTap={{ scale: 0.97 }}>
-        <Button type="button" size="lg" onClick={() => setOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          {t.addTrip}
-        </Button>
-      </motion.div>
+      <button type="button" className="btn-primary" onClick={() => setOpen(true)}>
+        <Plus className="mr-2 h-4 w-4" />
+        {t.addTrip}
+      </button>
       {open && (
         <div className="sheet-back" onClick={() => setOpen(false)}>
-          <motion.div
+          <div
             className="sheet"
             role="dialog"
             aria-modal="true"
             aria-label={t.addTrip}
             onClick={(e) => e.stopPropagation()}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
           >
-            <form onSubmit={submit}>
-              <Field label={t.idOptional} icon={<Hash className="h-4 w-4" />}>
-                <Input type="text" name="id" autoComplete="off" className="pl-9" />
-              </Field>
-              <Field label={t.start} icon={<CalendarClock className="h-4 w-4" />}>
-                <Input type="datetime-local" name="start" required className="pl-9" />
-              </Field>
-              <Field label={t.end} icon={<CalendarClock className="h-4 w-4" />}>
-                <Input type="datetime-local" name="end" required className="pl-9" />
-              </Field>
-              <Field label={t.amount} icon={<Banknote className="h-4 w-4" />}>
-                <Input type="number" name="amount" min="1" step="any" required className="pl-9" />
-              </Field>
+            <MeetingScheduler
+              title={t.addTrip}
+              description={t.sheetHint}
+              scheduleButtonText={t.add}
+              cancelButtonText={t.close}
+              onSchedule={(d) => {
+                if (amount === "") {
+                  setError(t.errorAmount);
+                  return;
+                }
+                submit({ startDate: d.startDate, endDate: d.endDate });
+              }}
+              onCancel={() => setOpen(false)}
+            />
+            <div className="sheet-fields">
+              <label className="field">
+                <span>{t.amount}</span>
+                <span className="relative block">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
+                    <Banknote className="h-4 w-4" />
+                  </span>
+                  <Input
+                    type="number"
+                    min="1"
+                    step="any"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="pl-9"
+                  />
+                </span>
+              </label>
               <div className="field">
                 <span id="pay-label">{t.payment}</span>
                 <Select value={payment} onValueChange={setPayment}>
@@ -127,29 +124,38 @@ export default function AddSheet({
                   </SelectContent>
                 </Select>
               </div>
-              <Field label={t.commissionOptional} icon={<Tag className="h-4 w-4" />}>
-                <Input type="number" name="commission" min="0" step="any" className="pl-9" />
-              </Field>
-              <motion.div whileTap={{ scale: 0.98 }}>
-                <Button type="submit" className="w-full">
-                  {t.add}
-                </Button>
-              </motion.div>
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={() => setOpen(false)}
-              >
-                {t.close}
-              </Button>
+              <label className="field">
+                <span>{t.commissionOptional}</span>
+                <span className="relative block">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
+                    <Tag className="h-4 w-4" />
+                  </span>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="any"
+                    value={commission}
+                    onChange={(e) => setCommission(e.target.value)}
+                    className="pl-9"
+                  />
+                </span>
+              </label>
+              <label className="field">
+                <span>{t.idOptional}</span>
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  value={id}
+                  onChange={(e) => setId(e.target.value)}
+                />
+              </label>
               {error && (
                 <div id="error" role="alert">
                   {error}
                 </div>
               )}
-            </form>
-          </motion.div>
+            </div>
+          </div>
         </div>
       )}
     </>

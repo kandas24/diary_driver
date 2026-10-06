@@ -33,6 +33,9 @@ export const STRINGS: Record<Lang, Dict> = {
     avg: "Сред",
     week: "Неделя",
     time: "Время",
+    sheetHint: "Выберите дату и время поездки.",
+    errorDates: "Выберите дату поездки.",
+    errorAmount: "Укажите сумму.",
   },
   en: {
     title: "Driver shift diary",
@@ -64,6 +67,9 @@ export const STRINGS: Record<Lang, Dict> = {
     avg: "Avg",
     week: "Week",
     time: "Time",
+    sheetHint: "Pick the trip date and time.",
+    errorDates: "Pick the trip date.",
+    errorAmount: "Enter the amount.",
   },
   kk: {
     title: "Жүргізуші күнделігі",
@@ -95,5 +101,8 @@ export const STRINGS: Record<Lang, Dict> = {
     avg: "Орта",
     week: "Апта",
     time: "Уақыт",
+    sheetHint: "Тарих күні мен уақытын таңдаңыз.",
+    errorDates: "Тарих күнін таңдаңыз.",
+    errorAmount: "Соманы көрсетіңіз.",
   },
 };
