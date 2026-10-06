@@ -189,7 +189,6 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 );
               })}
             </div>
-            {underCalendar ? underCalendar({ startDate, endDate }) : null}
           </div>
 
           {/* Right Side: Inputs */}
@@ -216,8 +215,6 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
               {children}
             </div>
 
-            <div className="flex-1" />
-
             {showFooter ? (
             <div className="pt-4 border-t">
                 <p className="text-sm text-muted-foreground mb-4">{getEventSummary()}</p>
@@ -228,6 +225,13 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
             </div>
           ) : null}
           </div>
+        {underCalendar ? (
+            <div className="col-span-full mt-2 border-t pt-6">
+              <div className="md:max-w-[calc(50%-1rem)]">
+                {underCalendar({ startDate, endDate })}
+              </div>
+            </div>
+          ) : null}
         </CardContent>
       </motion.div>
     </Card>
