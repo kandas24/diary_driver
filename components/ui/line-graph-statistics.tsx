@@ -160,27 +160,14 @@ const CleanWireframeAnalytics = ({
                 <path
                   d={generateSmoothPath(desktop, 340, true)}
                   fill="rgba(161, 161, 170, 0.10)"
-                  className={`transition-all duration-2000 ${
-                    chartVisible ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    transform: chartVisible ? 'scale(1)' : 'scale(0.95)',
-                    transformOrigin: 'center bottom'
-                  }}
+                  className={chartVisible ? 'chart-in' : 'chart-out'}
                 />
 
                 {/* Mobile Area */}
                 <path
                   d={generateSmoothPath(mobile, 340, true)}
                   fill="rgba(239, 68, 68, 0.14)"
-                  className={`transition-all duration-2000 ${
-                    chartVisible ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    transform: chartVisible ? 'scale(1)' : 'scale(0.95)',
-                    transformOrigin: 'center bottom',
-                    transitionDelay: '300ms'
-                  }}
+                  className={chartVisible ? 'chart-in' : 'chart-out'}
                 />
 
                 {/* Desktop Line */}
@@ -190,14 +177,9 @@ const CleanWireframeAnalytics = ({
                   stroke="#a1a1aa"
                   strokeWidth="2"
                   strokeLinecap="round"
-                  className={`transition-all duration-2000 ${
-                    chartVisible ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    strokeDasharray: chartVisible ? 'none' : '1000',
-                    strokeDashoffset: chartVisible ? '0' : '1000',
-                    transitionDelay: '600ms'
-                  }}
+                  className="chart-line"
+                  strokeDasharray={1000}
+                  strokeDashoffset={chartVisible ? 0 : 1000}
                 />
 
                 {/* Mobile Line */}
@@ -207,14 +189,9 @@ const CleanWireframeAnalytics = ({
                   stroke="#ef4444"
                   strokeWidth="2"
                   strokeLinecap="round"
-                  className={`transition-all duration-2000 ${
-                    chartVisible ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    strokeDasharray: chartVisible ? 'none' : '1000',
-                    strokeDashoffset: chartVisible ? '0' : '1000',
-                    transitionDelay: '900ms'
-                  }}
+                  className="chart-line"
+                  strokeDasharray={1000}
+                  strokeDashoffset={chartVisible ? 0 : 1000}
                 />
 
                 {/* Data Points */}
@@ -244,12 +221,8 @@ const CleanWireframeAnalytics = ({
                         cy={desktopY}
                         r={hoveredPoint === index ? 6 : 3.5}
                         fill="#a1a1aa"
-                        className={`transition-all duration-500 cursor-pointer ${
-                          chartVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                        }`}
-                        style={{
-                          transitionDelay: `${1200 + index * 100}ms`
-                        }}
+                        className={`cursor-pointer ${chartVisible ? 'chart-dot' : 'chart-dot-off'}`}
+                        style={{ animationDelay: `${(1500 * index) / Math.max(currentData.dates.length - 1, 1)}ms` }}
                         onMouseEnter={() => setHoveredPoint(index)}
                         onMouseLeave={() => setHoveredPoint(null)}
                       />
@@ -260,12 +233,8 @@ const CleanWireframeAnalytics = ({
                         cy={mobileY}
                         r={hoveredPoint === index ? 6 : 3.5}
                         fill="#ef4444"
-                        className={`transition-all duration-500 cursor-pointer ${
-                          chartVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                        }`}
-                        style={{
-                          transitionDelay: `${900 + (2000 * index) / Math.max(currentData.dates.length - 1, 1)}ms`
-                        }}
+                        className={`cursor-pointer ${chartVisible ? 'chart-dot' : 'chart-dot-off'}`}
+                        style={{ animationDelay: `${(1500 * index) / Math.max(currentData.dates.length - 1, 1)}ms` }}
                         onMouseEnter={() => setHoveredPoint(index)}
                         onMouseLeave={() => setHoveredPoint(null)}
                       />
@@ -288,12 +257,8 @@ const CleanWireframeAnalytics = ({
                       fill={selectedIndex === index ? '#fafafa' : '#71717a'}
                       fontSize="13"
                       fontWeight="400"
-                      className={`transition-all duration-500 cursor-pointer ${
-                        chartVisible ? 'opacity-100' : 'opacity-0'
-                      }`}
-                      style={{
-                        transitionDelay: `${1500 + index * 50}ms`
-                      }}
+                      className={`cursor-pointer ${chartVisible ? 'chart-label' : 'chart-label-off'}`}
+                      style={{ animationDelay: `${1200 + (400 * index) / Math.max(currentData.dates.length - 1, 1)}ms` }}
                       onClick={() => onSelect && onSelect(date)}
                     >
                       {date}
