@@ -6,7 +6,7 @@ import { STRINGS, type Lang } from "../lib/i18n";
 import { loadDay, loadRange, today } from "../lib/day";
 import type { Summary, Trip } from "../lib/summary";
 import AddSheet from "../components/add-sheet";
-import DateStrip from "../components/date-strip";
+import DatePicker from "../components/date-picker";
 import LangToggle from "../components/lang-toggle";
 import SummaryCards from "../components/summary-cards";
 import TripsTable from "../components/trips-table";
@@ -91,7 +91,7 @@ export default function Page() {
           </div>
           <LangToggle lang={lang} onChange={setLang} />
         </div>
-        <DateStrip date={date} lang={lang} t={t} onChange={setDate} />
+        <DatePicker date={date} onChange={setDate} />
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
           <section className="panel" aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
