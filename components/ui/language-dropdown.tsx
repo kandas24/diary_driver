@@ -41,10 +41,10 @@ export const Component = ({
         onClick={() => setOpen((o) => !o)}
         className={cn(
           "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
-          "bg-white/60 dark:bg-neutral-900/90 backdrop-blur-md shadow-sm",
-          "border-gray-200 dark:border-neutral-700",
-          "text-gray-800 dark:text-neutral-200",
-          "hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all"
+          "bg-neutral-900/90 backdrop-blur-md shadow-sm",
+          "border-neutral-700",
+          "text-neutral-200",
+          "hover:bg-neutral-800 transition-all"
         )}
       >
         <span>{selected.flag}</span>
@@ -57,8 +57,8 @@ export const Component = ({
         <div
           className={cn(
             "absolute left-0 mt-2 w-48 rounded-xl overflow-hidden",
-            "bg-white/90 dark:bg-neutral-900/95 backdrop-blur-xl",
-            "shadow-lg border border-gray-200 dark:border-neutral-700",
+            "bg-neutral-900/95 backdrop-blur-xl",
+            "shadow-lg border border-neutral-700",
             "animate-fade-in"
           )}
         >
@@ -73,14 +73,14 @@ export const Component = ({
               className={cn(
                 "flex items-center gap-2 w-full px-3 py-2 text-sm text-left transition-colors",
                 selected.code === lang.code
-                  ? "font-semibold text-blue-600 dark:text-blue-400"
-                  : "text-gray-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800"
+                  ? "font-semibold text-blue-400"
+                  : "text-neutral-200 hover:bg-neutral-800"
               )}
             >
               <span>{lang.flag}</span>
               <span className="flex-1">{lang.label}</span>
               {selected.code === lang.code && (
-                <Check className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+                <Check className="h-4 w-4 text-blue-400" />
               )}
             </button>
           ))}
