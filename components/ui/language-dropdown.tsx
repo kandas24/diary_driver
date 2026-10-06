@@ -5,9 +5,9 @@ import { Check, ChevronDown } from "lucide-react";
 import { cn } from "../../lib/cn";
 import type { Lang } from "../../lib/i18n";
 
-const languages: Array<{ code: Lang; short: string; label: string; flag: string }> = [
-  { code: "en", short: "US", label: "English", flag: "🇺🇸" },
-  { code: "ru", short: "RU", label: "Русский", flag: "🇷🇺" },
+const languages: Array<{ code: Lang; label: string; flag: string }> = [
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "ru", label: "Русский", flag: "🇷🇺" },
 ];
 
 export default function LanguageDropdown({
@@ -76,7 +76,6 @@ export default function LanguageDropdown({
                   : "text-[#e5e5e5] hover:bg-[#262626]"
               )}
             >
-              <span className="text-xs text-[#a3a3a3]">{lang.short}</span>
               <span>{lang.flag}</span>
               <span className="flex-1">{lang.label}</span>
               {value === lang.code && <Check className="h-4 w-4 text-[#60a5fa]" />}
