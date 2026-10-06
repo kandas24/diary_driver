@@ -1,11 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { CalendarDays } from "lucide-react";
+
 import { STRINGS, type Lang } from "../lib/i18n";
 import { loadDay, loadRange, today } from "../lib/day";
 import type { Summary, Trip } from "../lib/summary";
 import AddSheet from "../components/add-sheet";
+import DateStrip from "../components/date-strip";
 import LangToggle from "../components/lang-toggle";
 import SummaryCards from "../components/summary-cards";
 import TripsTable from "../components/trips-table";
@@ -90,19 +91,7 @@ export default function Page() {
           </div>
           <LangToggle lang={lang} onChange={setLang} />
         </div>
-        <div className="dayrow">
-          <label htmlFor="day">{t.day}</label>
-          <span className="relative inline-flex items-center">
-            <CalendarDays className="pointer-events-none absolute left-3 h-4 w-4 text-[#a89fa4]" />
-            <input
-              id="day"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="pl-9"
-            />
-          </span>
-        </div>
+        <DateStrip date={date} lang={lang} t={t} onChange={setDate} />
         {summary && <SummaryCards summary={summary} t={t} />}
         {week.length > 0 && (
           <section className="panel" aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
