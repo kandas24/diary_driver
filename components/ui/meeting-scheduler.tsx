@@ -162,13 +162,10 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 <div key={day} className="py-2">{day}</div>
               ))}
             </div>
-            <div className="grid grid-cols-7">
+            <div className="grid grid-cols-7 gap-1">
               {days.map((day) => {
-                const isStart = Boolean(startDate && isSameDay(day, startDate));
-                const isEnd = Boolean(endDate && isSameDay(day, endDate));
-                const isInRange = Boolean(startDate && endDate && isAfter(day, startDate) && isBefore(day, endDate));
-                const isSameDayStart = Boolean(startDate && endDate && isSameDay(day, startDate));
-                const isSameDayEnd = Boolean(startDate && endDate && isSameDay(day, endDate));
+                const isSelected = (startDate && isSameDay(day, startDate)) || (endDate && isSameDay(day, endDate));
+                const isInRange = startDate && endDate && isAfter(day, startDate) && isBefore(day, endDate);
 
                 return (
                   <motion.button
@@ -177,28 +174,17 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "relative flex h-10 w-full items-center justify-center text-sm transition-colors duration-200",
+                      "relative h-10 w-10 rounded-full flex items-center justify-center transition-colors duration-200",
                       !isSameMonth(day, currentMonth) && "text-muted-foreground/50",
-                      isSameDay(day, new Date()) && "text-foreground font-bold",
-                      isInRange && "bg-muted text-foreground",
-                      isStart && !isSameDayStart && "rounded-l-full bg-muted text-foreground",
-                      isEnd && !isSameDayEnd && "rounded-r-full bg-muted text-foreground",
-                      isStart && isEnd && isSameDayStart && "rounded-full bg-muted text-foreground",
-                      isStart && isSameDayStart && "ring-1 ring-ring rounded-full",
-                      isEnd && isSameDayEnd && "ring-1 ring-ring rounded-full",
-                      isStart && isEnd && !isSameDayStart && "rounded-l-full",
-                      isStart && isEnd && isSameDayStart && "bg-transparent"
+                      isSameDay(day, new Date()) && "text-primary font-bold",
+                      isSelected && "bg-primary text-primary-foreground",
+                      isInRange && "bg-primary/10 text-primary-foreground rounded-none",
+                      startDate && isSameDay(day, startDate) && "rounded-r-none",
+                      endDate && isSameDay(day, endDate) && "rounded-l-none"
                     )}
                   >
-                    <span
-                      className={cn(
-                        "flex h-9 w-9 items-center justify-center rounded-full",
-                        isStart && "bg-primary text-primary-foreground",
-                        isEnd && "bg-primary text-primary-foreground"
-                      )}
-                    >
-                      {format(day, "d")}
-                    </span>
+                    {format(day, "d")}
+                     {isInRange && <div className="absolute inset-0 bg-primary/20" />}
                   </motion.button>
                 );
               })}
