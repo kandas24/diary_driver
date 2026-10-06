@@ -93,18 +93,18 @@ const CleanWireframeAnalytics = ({
   const periods: any[] = [];
 
   const metrics = [
-    { label: labels.peak, value: currentData.peak, color: 'border-blue-500', size: '' },
-    { label: labels.average, value: currentData.average, color: 'border-orange-500', size: '' },
-    { label: labels.growth, value: currentData.growth, color: 'border-green-500', size: '' }
+    { label: labels.peak, value: currentData.peak, color: '', size: '' },
+    { label: labels.average, value: currentData.average, color: '', size: '' },
+    { label: labels.growth, value: currentData.growth, color: '', size: '' }
   ];
 
   return (
     <div className="stats font-light">
       <div>
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-8 pl-0.5">
           <h1 
-            className={`text-4xl font-extralight text-zinc-100 mb-3 tracking-tight transition-all duration-1000 ${
+            className={`text-4xl leading-tight font-extralight text-zinc-100 mb-1 tracking-normal transition-all duration-1000 ${
               animationPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
@@ -129,18 +129,18 @@ const CleanWireframeAnalytics = ({
                 animationPhase >= 2 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
               }`}
             >
-              <div className="w-3 h-3 rounded-full border-2 border-red-500 bg-red-500/20"></div>
               <span className="text-zinc-400 font-medium">{labels.revenue}</span>
               <span className="text-zinc-100 font-semibold">{mobile[mobile.length - 1]}</span>
+              <span className="w-2 h-2 rounded-full bg-red-500"></span>
             </div>
             <div 
               className={`flex items-center gap-2 transition-all duration-800 delay-400 ${
                 animationPhase >= 2 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
               }`}
             >
-              <div className="w-3 h-3 rounded-full border-2 border-zinc-400 bg-zinc-800"></div>
               <span className="text-zinc-400 font-medium">{labels.trips}</span>
               <span className="text-zinc-100 font-semibold">{desktop[desktop.length - 1]}</span>
+              <span className="w-2 h-2 rounded-full bg-zinc-400"></span>
             </div>
           </div>
 
@@ -188,7 +188,7 @@ const CleanWireframeAnalytics = ({
                   d={generateSmoothPath(desktop, 340)}
                   fill="none"
                   stroke="#a1a1aa"
-                  strokeWidth="2.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   className={`transition-all duration-2000 ${
                     chartVisible ? 'opacity-100' : 'opacity-0'
@@ -205,7 +205,7 @@ const CleanWireframeAnalytics = ({
                   d={generateSmoothPath(mobile, 340)}
                   fill="none"
                   stroke="#ef4444"
-                  strokeWidth="2.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   className={`transition-all duration-2000 ${
                     chartVisible ? 'opacity-100' : 'opacity-0'
@@ -228,11 +228,21 @@ const CleanWireframeAnalytics = ({
                   
                   return (
                     <g key={index}>
+                      <rect
+                        x={x - 14}
+                        y={padding}
+                        width={28}
+                        height={chartHeight}
+                        fill="transparent"
+                        onMouseEnter={() => setHoveredPoint(index)}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                        onClick={() => onSelect && onSelect(date)}
+                      />
                       {/* Desktop Point */}
                       <circle
                         cx={x}
                         cy={desktopY}
-                        r={hoveredPoint === index ? 5 : 3}
+                        r={hoveredPoint === index ? 6 : 3.5}
                         fill="#a1a1aa"
                         className={`transition-all duration-500 cursor-pointer ${
                           chartVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
@@ -248,7 +258,7 @@ const CleanWireframeAnalytics = ({
                       <circle
                         cx={x}
                         cy={mobileY}
-                        r={hoveredPoint === index ? 5 : 3}
+                        r={hoveredPoint === index ? 6 : 3.5}
                         fill="#ef4444"
                         className={`transition-all duration-500 cursor-pointer ${
                           chartVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
@@ -348,7 +358,7 @@ const CleanWireframeAnalytics = ({
                 <div
                   key={metric.label}
                   className={`
-                    bg-zinc-900 rounded-lg shadow-sm border-2 ${metric.color} p-4 min-w-[120px]
+                    bg-zinc-900 rounded-lg shadow-sm border border-white/12 p-4 min-w-[120px]
                     transition-all duration-800 hover:scale-105 hover:shadow-md
                     ${animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
                   `}
@@ -357,7 +367,7 @@ const CleanWireframeAnalytics = ({
                   }}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="w-2 h-2 rounded-full bg-current opacity-60"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-zinc-500"></div>
                     <span className="text-xs text-zinc-500 font-medium">{metric.size}</span>
                   </div>
                   <div className="text-2xl font-bold text-zinc-100 mb-1">{metric.value}</div>
@@ -379,7 +389,7 @@ const CleanWireframeAnalytics = ({
               </div>
               <div className="w-48 h-2 bg-gray-700 rounded-full mt-2 overflow-hidden">
                 <div 
-                  className={`h-full bg-gradient-to-r from-blue-500 via-green-500 to-orange-500 rounded-full transition-all duration-2000 ${
+                  className={`h-full bg-red-500 rounded-full transition-all duration-2000 ${
                     chartVisible ? 'w-full' : 'w-0'
                   }`}
                   style={{ transitionDelay: '2800ms' }}

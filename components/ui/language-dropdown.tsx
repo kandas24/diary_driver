@@ -3,9 +3,9 @@ import { cn } from "../../lib/cn";
 import { ChevronDown, Check } from "lucide-react";
 
 const languages = [
-  { code: "en", label: "English", flag: "🇺🇸" },
-  { code: "ru", label: "Русский", flag: "🇷🇺" },
   { code: "kk", label: "Қазақша", flag: "🇰🇿" },
+  { code: "ru", label: "Русский", flag: "🇷🇺" },
+  { code: "en", label: "English", flag: "🇺🇸" },
 ];
 
 export const Component = ({
@@ -36,7 +36,7 @@ export const Component = ({
   }, []);
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className="relative inline-block" style={{ position: "relative", zIndex: 100 }} ref={dropdownRef}>
       {/* Trigger Button */}
       <button
         onClick={() => setOpen((o) => !o)}
@@ -60,6 +60,7 @@ export const Component = ({
             "absolute left-0 mt-2 w-48 rounded-xl overflow-hidden",
             "bg-neutral-900/95 backdrop-blur-xl",
             "shadow-lg border border-neutral-700",
+            "z-50",
             "animate-fade-in"
           )}
         >
@@ -74,14 +75,14 @@ export const Component = ({
               className={cn(
                 "flex items-center gap-2 w-full px-3 py-2 text-sm text-left transition-colors",
                 selected.code === lang.code
-                  ? "font-semibold text-blue-400"
+                  ? "font-semibold text-red-400"
                   : "text-neutral-200 hover:bg-neutral-800"
               )}
             >
               <span>{lang.flag}</span>
               <span className="flex-1">{lang.label}</span>
               {selected.code === lang.code && (
-                <Check className="h-4 w-4 text-blue-400" />
+                <Check className="h-4 w-4 text-red-400" />
               )}
             </button>
           ))}
