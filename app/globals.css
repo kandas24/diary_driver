@@ -150,6 +150,11 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
 @layer components {
 input, select, button { font-size: 1rem; padding: 0.6rem 0.7rem; border-radius: 10px; min-height: 44px; }
 input, select {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+input, select {
   color: var(--text);
   background: rgba(23, 23, 23, 0.7);
   border: 1px solid var(--card-border);
