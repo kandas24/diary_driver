@@ -75,7 +75,7 @@ export default function AddSheet({
       {open && (
         <div className="sheet-back" onClick={() => setOpen(false)}>
           <div
-            className="sheet"
+            className="sheet sheet-plain"
             role="dialog"
             aria-modal="true"
             aria-label={t.addTrip}
@@ -86,6 +86,7 @@ export default function AddSheet({
               description={t.sheetHint}
               scheduleButtonText={t.add}
               cancelButtonText={t.close}
+              toggleLabel={t.payment}
               onSchedule={(d) => {
                 if (amount === "") {
                   setError(t.errorAmount);
@@ -94,67 +95,70 @@ export default function AddSheet({
                 submit({ startDate: d.startDate, endDate: d.endDate });
               }}
               onCancel={() => setOpen(false)}
-            />
-            <div className="sheet-fields">
-              <label className="field">
-                <span>{t.amount}</span>
-                <span className="relative block">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
-                    <Banknote className="h-4 w-4" />
-                  </span>
-                  <Input
-                    type="number"
-                    min="1"
-                    step="any"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="pl-9"
-                  />
-                </span>
-              </label>
-              <div className="field">
-                <span id="pay-label">{t.payment}</span>
-                <Select value={payment} onValueChange={setPayment}>
-                  <SelectTrigger aria-labelledby="pay-label">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="card">{t.card}</SelectItem>
-                    <SelectItem value="cash">{t.cash}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <label className="field">
-                <span>{t.commissionOptional}</span>
-                <span className="relative block">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#a89fa4]">
-                    <Tag className="h-4 w-4" />
-                  </span>
-                  <Input
-                    type="number"
-                    min="0"
-                    step="any"
-                    value={commission}
-                    onChange={(e) => setCommission(e.target.value)}
-                    className="pl-9"
-                  />
-                </span>
-              </label>
-              <label className="field">
-                <span>{t.idOptional}</span>
-                <Input
-                  type="text"
-                  autoComplete="off"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
-                />
-              </label>
-              {error && (
-                <div id="error" role="alert">
-                  {error}
+            >
+              <div className="space-y-4 pt-4">
+                <div>
+                  <span className="text-sm font-medium">{t.amount}</span>
+                  <div className="relative mt-2">
+                    <Banknote className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="number"
+                      min="1"
+                      step="any"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
                 </div>
-              )}
-            </div>
+                <div>
+                  <span id="pay-label" className="text-sm font-medium">
+                    {t.payMethod}
+                  </span>
+                  <div className="mt-2">
+                    <Select value={payment} onValueChange={setPayment}>
+                      <SelectTrigger aria-labelledby="pay-label">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="card">{t.card}</SelectItem>
+                        <SelectItem value="cash">{t.cash}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-sm font-medium">{t.commissionOptional}</span>
+                  <div className="relative mt-2">
+                    <Tag className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="number"
+                      min="0"
+                      step="any"
+                      value={commission}
+                      onChange={(e) => setCommission(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <span className="text-sm font-medium">{t.idOptional}</span>
+                  <div className="mt-2">
+                    <Input
+                      type="text"
+                      autoComplete="off"
+                      value={id}
+                      onChange={(e) => setId(e.target.value)}
+                    />
+                  </div>
+                </div>
+                {error && (
+                  <div id="error" role="alert">
+                    {error}
+                  </div>
+                )}
+              </div>
+            </MeetingScheduler>
           </div>
         </div>
       )}

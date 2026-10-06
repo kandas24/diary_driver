@@ -45,6 +45,10 @@ interface MeetingSchedulerProps {
   onSchedule: (details: { startDate: Date | null; endDate: Date | null; aiNotes: boolean }) => void;
   /** Callback function when the cancel button is clicked. */
   onCancel: () => void;
+  /** Extra fields rendered in the right column under the AI toggle. */
+  children?: React.ReactNode;
+  /** Label for the toggle row. */
+  toggleLabel?: string;
 }
 
 // Helper to format time for display
@@ -60,6 +64,8 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   initialEndDate,
   onSchedule,
   onCancel,
+  children,
+  toggleLabel = "Enable AI notes",
 }) => {
   // State management
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(initialStartDate || new Date()));
@@ -200,9 +206,10 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
 
               {/* AI Notes Toggle */}
               <div className="flex items-center justify-between pt-4">
-                <Label htmlFor="ai-notes" className="font-medium">Enable AI notes</Label>
+                <Label htmlFor="ai-notes" className="font-medium">{toggleLabel}</Label>
                 <Switch id="ai-notes" checked={aiNotes} onCheckedChange={setAiNotes} />
               </div>
+              {children}
             </div>
             
             {/* Footer section */}

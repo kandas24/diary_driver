@@ -36,6 +36,7 @@ export const STRINGS: Record<Lang, Dict> = {
     sheetHint: "Выберите дату и время поездки.",
     errorDates: "Выберите дату поездки.",
     errorAmount: "Укажите сумму.",
+    payMethod: "Способ оплаты",
   },
   en: {
     title: "Driver shift diary",
@@ -70,6 +71,7 @@ export const STRINGS: Record<Lang, Dict> = {
     sheetHint: "Pick the trip date and time.",
     errorDates: "Pick the trip date.",
     errorAmount: "Enter the amount.",
+    payMethod: "Payment method",
   },
   kk: {
     title: "Жүргізуші күнделігі",
@@ -104,5 +106,6 @@ export const STRINGS: Record<Lang, Dict> = {
     sheetHint: "Тарих күні мен уақытын таңдаңыз.",
     errorDates: "Тарих күнін таңдаңыз.",
     errorAmount: "Соманы көрсетіңіз.",
+    payMethod: "Төлем тәсілі",
   },
 };

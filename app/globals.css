@@ -166,7 +166,7 @@ button.btn-primary {
 }
 .sheet {
   width: 100%;
-  max-width: 480px;
+  max-width: 880px;
   max-height: 90vh;
   overflow: auto;
   background: #141d33;
@@ -177,6 +177,8 @@ button.btn-primary {
 }
 .sheet form { display: grid; gap: 0.6rem; }
 .sheet-fields { display: grid; gap: 0.6rem; margin-top: 1rem; }
+.sheet-plain { background: transparent; border: none; padding: 0; }
+.sheet-plain::-webkit-scrollbar { width: auto; }
 @media (min-width: 640px) {
   .sheet-back { align-items: center; padding: 1rem; }
   .sheet { border-bottom: 1px solid var(--card-border); border-radius: 20px; }
