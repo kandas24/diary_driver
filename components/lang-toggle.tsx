@@ -1,6 +1,7 @@
 "use client";
 
 import type { Lang } from "../lib/i18n";
+import { SegmentedControl } from "./ui/segmented-control";
 
 export default function LangToggle({
   lang,
@@ -10,18 +11,16 @@ export default function LangToggle({
   onChange: (l: Lang) => void;
 }) {
   return (
-    <div role="group" aria-label="language" style={{ display: "flex", gap: "0.4rem" }}>
-      {(["ru", "en"] as const).map((l) => (
-        <button
-          key={l}
-          type="button"
-          className="ghost"
-          aria-pressed={lang === l}
-          onClick={() => onChange(l)}
-        >
-          {l.toUpperCase()}
-        </button>
-      ))}
-    </div>
+    <SegmentedControl
+      label="language"
+      value={lang}
+      onValueChange={(v) => {
+        if (v === "ru" || v === "en") onChange(v);
+      }}
+      options={[
+        { value: "ru", label: "RU" },
+        { value: "en", label: "EN" },
+      ]}
+    />
   );
 }

@@ -2,6 +2,14 @@
 
 import { useState } from "react";
 import type { Dict as T } from "../lib/i18n";
+import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export default function AddSheet({
   t,
@@ -12,6 +20,7 @@ export default function AddSheet({
 }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const [payment, setPayment] = useState("card");
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,7 +31,7 @@ export default function AddSheet({
       start: String(f.get("start") ?? ""),
       end: String(f.get("end") ?? ""),
       amount: Number(f.get("amount")),
-      payment: String(f.get("payment")),
+      payment,
     };
     const id = String(f.get("id") ?? "");
     if (id) body.id = id;
@@ -65,30 +74,35 @@ export default function AddSheet({
             <form onSubmit={submit}>
               <label className="field">
                 <span>{t.idOptional}</span>
-                <input type="text" name="id" autoComplete="off" />
+                <Input type="text" name="id" autoComplete="off" />
               </label>
               <label className="field">
                 <span>{t.start}</span>
-                <input type="datetime-local" name="start" required />
+                <Input type="datetime-local" name="start" required />
               </label>
               <label className="field">
                 <span>{t.end}</span>
-                <input type="datetime-local" name="end" required />
+                <Input type="datetime-local" name="end" required />
               </label>
               <label className="field">
                 <span>{t.amount}</span>
-                <input type="number" name="amount" min="1" step="any" required />
+                <Input type="number" name="amount" min="1" step="any" required />
               </label>
-              <label className="field">
-                <span>{t.payment}</span>
-                <select name="payment">
-                  <option value="card">{t.card}</option>
-                  <option value="cash">{t.cash}</option>
-                </select>
-              </label>
+              <div className="field">
+                <span id="pay-label">{t.payment}</span>
+                <Select value={payment} onValueChange={setPayment}>
+                  <SelectTrigger aria-labelledby="pay-label">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="card">{t.card}</SelectItem>
+                    <SelectItem value="cash">{t.cash}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <label className="field">
                 <span>{t.commissionOptional}</span>
-                <input type="number" name="commission" min="0" step="any" />
+                <Input type="number" name="commission" min="0" step="any" />
               </label>
               <button type="submit">{t.add}</button>
               <button type="button" className="ghost" onClick={() => setOpen(false)}>
