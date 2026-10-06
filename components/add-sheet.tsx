@@ -86,7 +86,6 @@ export default function AddSheet({
               description={t.sheetHint}
               scheduleButtonText={t.add}
               cancelButtonText={t.close}
-              toggleLabel={t.payment}
               onSchedule={(d) => {
                 if (amount === "") {
                   setError(t.errorAmount);
@@ -98,6 +97,18 @@ export default function AddSheet({
             >
               <div className="space-y-4 pt-4">
                 <div>
+                  <span className="text-sm font-medium">{t.idOptional}</span>
+                  <div className="mt-2">
+                    <Input
+                      type="text"
+                      autoComplete="off"
+                      value={id}
+                      placeholder={t.idPlaceholder}
+                      onChange={(e) => setId(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div>
                   <span className="text-sm font-medium">{t.amount}</span>
                   <div className="relative mt-2">
                     <Banknote className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -106,15 +117,14 @@ export default function AddSheet({
                       min="1"
                       step="any"
                       value={amount}
+                      placeholder={t.amountPlaceholder}
                       onChange={(e) => setAmount(e.target.value)}
                       className="pl-9"
                     />
                   </div>
                 </div>
                 <div>
-                  <span id="pay-label" className="text-sm font-medium">
-                    {t.payMethod}
-                  </span>
+                  <span className="text-sm font-medium">{t.payMethod}</span>
                   <div className="mt-2">
                     <Select value={payment} onValueChange={setPayment}>
                       <SelectTrigger aria-labelledby="pay-label">
@@ -136,19 +146,9 @@ export default function AddSheet({
                       min="0"
                       step="any"
                       value={commission}
+                      placeholder={t.commissionPlaceholder}
                       onChange={(e) => setCommission(e.target.value)}
                       className="pl-9"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <span className="text-sm font-medium">{t.idOptional}</span>
-                  <div className="mt-2">
-                    <Input
-                      type="text"
-                      autoComplete="off"
-                      value={id}
-                      onChange={(e) => setId(e.target.value)}
                     />
                   </div>
                 </div>

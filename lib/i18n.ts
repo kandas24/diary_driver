@@ -37,6 +37,9 @@ export const STRINGS: Record<Lang, Dict> = {
     errorDates: "Выберите дату поездки.",
     errorAmount: "Укажите сумму.",
     payMethod: "Способ оплаты",
+    idPlaceholder: "например t1",
+    amountPlaceholder: "например 2400",
+    commissionPlaceholder: "например 360",
   },
   en: {
     title: "Driver shift diary",
@@ -72,6 +75,9 @@ export const STRINGS: Record<Lang, Dict> = {
     errorDates: "Pick the trip date.",
     errorAmount: "Enter the amount.",
     payMethod: "Payment method",
+    idPlaceholder: "e.g. t1",
+    amountPlaceholder: "e.g. 2400",
+    commissionPlaceholder: "e.g. 360",
   },
   kk: {
     title: "Жүргізуші күнделігі",
@@ -107,5 +113,8 @@ export const STRINGS: Record<Lang, Dict> = {
     errorDates: "Тарих күнін таңдаңыз.",
     errorAmount: "Соманы көрсетіңіз.",
     payMethod: "Төлем тәсілі",
+    idPlaceholder: "мысалы t1",
+    amountPlaceholder: "мысалы 2400",
+    commissionPlaceholder: "мысалы 360",
   },
 };

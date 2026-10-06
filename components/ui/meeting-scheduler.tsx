@@ -24,7 +24,6 @@ import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { cn } from "../../lib/cn";
 import { Button } from "./button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./card";
-import { Switch } from "./switch";
 import { Label } from "./label";
 
 // Define the props for the component
@@ -181,6 +180,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 );
               })}
             </div>
+            {children}
           </div>
           
           {/* Right Side: Inputs */}
@@ -204,14 +204,8 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
                 </div>
               </div>
 
-              {/* AI Notes Toggle */}
-              <div className="flex items-center justify-between pt-4">
-                <Label htmlFor="ai-notes" className="font-medium">{toggleLabel}</Label>
-                <Switch id="ai-notes" checked={aiNotes} onCheckedChange={setAiNotes} />
               </div>
-              {children}
-            </div>
-            
+
             {/* Footer section */}
             <div className="pt-4 border-t">
                 <p className="text-sm text-muted-foreground mb-4">{getEventSummary()}</p>

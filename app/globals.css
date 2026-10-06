@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #030307;
-  --color-foreground: #f4f2ef;
-  --color-card: #14090c;
-  --color-card-foreground: #f4f2ef;
-  --color-popover: #1a0d11;
-  --color-popover-foreground: #f4f2ef;
-  --color-primary: #e0263c;
-  --color-primary-foreground: #fff5f5;
-  --color-secondary: #2a1218;
-  --color-secondary-foreground: #f4f2ef;
-  --color-muted: #2a1218;
-  --color-muted-foreground: #a89fa4;
-  --color-accent: #2a1218;
-  --color-accent-foreground: #f4f2ef;
+  --color-background: #0c0a09;
+  --color-foreground: #e7e5e4;
+  --color-card: #1c1917;
+  --color-card-foreground: #e7e5e4;
+  --color-popover: #1c1917;
+  --color-popover-foreground: #e7e5e4;
+  --color-primary: #f5f5f4;
+  --color-primary-foreground: #1c1917;
+  --color-secondary: #292524;
+  --color-secondary-foreground: #fafaf9;
+  --color-muted: #292524;
+  --color-muted-foreground: #a8a29e;
+  --color-accent: #292524;
+  --color-accent-foreground: #fafaf9;
   --color-destructive: #ef4444;
   --color-destructive-foreground: #f8fafc;
-  --color-border: #4a2430;
-  --color-input: #4a2430;
-  --color-ring: #e0263c;
+  --color-border: #3f3f46;
+  --color-input: #3f3f46;
+  --color-ring: #d6d3d1;
 }
 
 @font-face {
@@ -43,13 +43,13 @@
 }
 
 :root {
-  --bg: #030307;
-  --card: rgba(20, 9, 12, 0.72);
-  --card-border: rgba(224, 38, 60, 0.22);
-  --text: #f4f2ef;
-  --muted: #a89fa4;
-  --accent: #e0263c;
-  --accent-ink: #fff5f5;
+  --bg: #0c0a09;
+  --card: rgba(28, 25, 23, 0.8);
+  --card-border: rgba(231, 229, 228, 0.12);
+  --text: #e7e5e4;
+  --muted: #a8a29e;
+  --accent: #e7e5e4;
+  --accent-ink: #1c1917;
   --danger: #f87171;
   --radius: 16px;
 }
@@ -73,7 +73,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(3, 3, 7, 0.7);
+  background: rgba(12, 10, 9, 0.7);
 }
 
 .bg-hole section {
@@ -100,7 +100,7 @@ h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; 
 }
 .card b { display: block; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
 .card span { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
-.card.hero { border-color: rgba(224, 38, 60, 0.55); box-shadow: 0 0 24px rgba(224, 38, 60, 0.25); }
+.card.hero { border-color: rgba(231, 229, 228, 0.3); box-shadow: 0 0 24px rgba(231, 229, 228, 0.12); }
 .card.hero b { color: var(--accent); }
 
 .panel {
@@ -131,7 +131,7 @@ table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.
 input, select, button { font-size: 1rem; padding: 0.6rem 0.7rem; border-radius: 10px; min-height: 44px; }
 input, select {
   color: var(--text);
-  background: rgba(20, 9, 12, 0.7);
+  background: rgba(28, 25, 23, 0.7);
   border: 1px solid var(--card-border);
   color-scheme: dark;
 }
@@ -169,7 +169,7 @@ button.btn-primary {
   max-width: 880px;
   max-height: 90vh;
   overflow: auto;
-  background: #141d33;
+  background: #1c1917;
   border: 1px solid var(--card-border);
   border-bottom: none;
   border-radius: 20px 20px 0 0;
