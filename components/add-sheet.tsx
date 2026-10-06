@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Banknote, Plus, Tag } from "lucide-react";
 import type { Dict as T, Lang } from "../lib/i18n";
+import { errorText } from "../lib/errors";
 import { MeetingScheduler } from "./ui/meeting-scheduler";
 import { Input } from "./ui/input";
 import {
@@ -58,9 +59,31 @@ export default function AddSheet({
       out.setHours(h, m, 0, 0);
       return out;
     };
+    const localIso = (d: Date) => {
+      const off = d.getTimezoneOffset();
+      const sign = off > 0 ? "+" : "-";
+      const pad = (n: number) => String(Math.abs(n)).padStart(2, "0");
+      return (
+        d.getFullYear() +
+        "-" +
+        pad(d.getMonth() + 1) +
+        "-" +
+        pad(d.getDate()) +
+        "T" +
+        pad(d.getHours()) +
+        ":" +
+        pad(d.getMinutes()) +
+        ":" +
+        pad(d.getSeconds()) +
+        sign +
+        pad(Math.floor(off / 60)) +
+        ":" +
+        pad(off % 60)
+      );
+    };
     const body: Record<string, unknown> = {
-      start: withTime(start, range.startTime).toISOString(),
-      end: withTime(end, range.endTime).toISOString(),
+      start: localIso(withTime(start, range.startTime)),
+      end: localIso(withTime(end, range.endTime)),
       amount: Number(amount),
       payment,
     };
@@ -79,7 +102,7 @@ export default function AddSheet({
     }
     const data = await res.json().catch(() => null);
     if (res.status === 400) {
-      setError((data && data.error) || "error");
+      setError(errorText(data && (data as { error?: unknown }).error, lang));
       return;
     }
     onAdded(res.status === 200 ? "dupe" : "saved");
