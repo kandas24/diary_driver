@@ -20,6 +20,7 @@ import {
 } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
+import { ru, kk } from "date-fns/locale";
 
 import { cn } from "../../lib/cn";
 import { Button } from "./button";
@@ -36,6 +37,22 @@ interface MeetingSchedulerProps {
   scheduleButtonText?: string;
   /** The text for the cancel button. */
   cancelButtonText?: string;
+  /** Locale code for month and weekday names. */
+  locale?: string;
+  /** Weekday headers, Monday first. */
+  weekdays?: string[];
+  /** Placeholder for an unset date. */
+  selectDateText?: string;
+  /** Placeholder for an unset time. */
+  selectTimeText?: string;
+  /** Hint shown before the first date is picked. */
+  beginText?: string;
+  /** Label for the event summary line. */
+  eventText?: string;
+  /** Field label for the start date. */
+  startLabel?: string;
+  /** Field label for the end date. */
+  endLabel?: string;
   /** Initial selected start date. */
   initialStartDate?: Date;
   /** Initial selected end date. */
@@ -66,6 +83,14 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   description = "Create your next meeting easily.",
   scheduleButtonText = "Schedule",
   cancelButtonText = "Cancel",
+  locale = "en-US",
+  weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  selectDateText = "Select date",
+  selectTimeText = "Select time",
+  beginText = "Select a date to begin.",
+  eventText = "Event:",
+  startLabel = "Start date*",
+  endLabel = "End date*",
   initialStartDate,
   initialEndDate,
   onSchedule,
@@ -76,6 +101,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   showFooter = true,
 }) => {
   // State management
+  const dateFnsLocale = locale.startsWith("ru") ? ru : locale.startsWith("kk") ? kk : undefined;
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(initialStartDate || new Date()));
   const [startDate, setStartDate] = useState<Date | null>(initialStartDate || null);
   const [endDate, setEndDate] = useState<Date | null>(initialEndDate || null);
@@ -103,12 +129,17 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
 
   // Determine the event summary text
   const getEventSummary = () => {
-    if (!startDate) return "Select a date to begin.";
-    const startFormatted = format(startDate, "MMM d");
-    if (!endDate) return `Event: ${startFormatted}`;
-    const endFormatted = format(endDate, "MMM d");
-    return `Event: ${startFormatted} - ${endFormatted}, from ${formatTime(startDate)} - ${formatTime(endDate)}`;
+    if (!startDate) return beginText;
+    const startFormatted = format(startDate, "MMM d", { locale: dateFnsLocale });
+    if (!endDate) return `${eventText} ${startFormatted}`;
+    const endFormatted = format(endDate, "MMM d", { locale: dateFnsLocale });
+    return `${eventText} ${startFormatted} - ${endFormatted}, ${formatTime(startDate)} - ${formatTime(endDate)}`;
   };
+
+  const formatMonth = (d: Date) => format(d, "LLLL yyyy", { locale: dateFnsLocale });
+  const formatLongDate = (d: Date | null) =>
+    d ? format(d, "LLLL d, yyyy", { locale: dateFnsLocale }) : selectDateText;
+  const formatTimeLocal = (d: Date | null) => (d ? format(d, "HH:mm") : selectTimeText);
   
   // Handlers
   const handleSchedule = () => {
@@ -143,14 +174,14 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
               </Button>
               <AnimatePresence mode="wait">
                 <motion.h3
-                  key={format(currentMonth, "MMMM yyyy")}
+                  key={formatMonth(currentMonth)}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
                   className="text-lg font-medium text-center"
                 >
-                  {format(currentMonth, "MMMM yyyy")}
+                  {formatMonth(currentMonth)}
                 </motion.h3>
               </AnimatePresence>
               <Button variant="ghost" size="icon" onClick={nextMonth} aria-label="Next month">
@@ -158,7 +189,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
               </Button>
             </div>
             <div className="grid grid-cols-7 text-center text-xs text-muted-foreground">
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+              {weekdays.map((day) => (
                 <div key={day} className="py-2">{day}</div>
               ))}
             </div>
@@ -199,19 +230,19 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
             <div className="space-y-4">
                {/* Start Date */}
               <div>
-                <Label htmlFor="start-date" className="text-sm font-medium">Start date*</Label>
+                <Label htmlFor="start-date" className="text-sm font-medium">{startLabel}</Label>
                 <div className="flex items-center mt-2 p-3 rounded-md border bg-background">
-                  <span className="text-sm flex-grow">{startDate ? format(startDate, "MMMM d, yyyy") : "Select date"}</span>
-                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTime(startDate)}</span>
+                  <span className="text-sm flex-grow">{formatLongDate(startDate)}</span>
+                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTimeLocal(startDate)}</span>
                 </div>
               </div>
 
                {/* End Date */}
               <div>
-                <Label htmlFor="end-date" className="text-sm font-medium">End date*</Label>
+                <Label htmlFor="end-date" className="text-sm font-medium">{endLabel}</Label>
                 <div className="flex items-center mt-2 p-3 rounded-md border bg-background">
-                  <span className="text-sm flex-grow">{endDate ? format(endDate, "MMMM d, yyyy") : "Select date"}</span>
-                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTime(endDate)}</span>
+                  <span className="text-sm flex-grow">{formatLongDate(endDate)}</span>
+                  <span className="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-md">{formatTimeLocal(endDate)}</span>
                 </div>
               </div>
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Banknote, Plus, Tag } from "lucide-react";
-import type { Dict as T } from "../lib/i18n";
+import type { Dict as T, Lang } from "../lib/i18n";
 import { MeetingScheduler } from "./ui/meeting-scheduler";
 import { Input } from "./ui/input";
 import {
@@ -15,9 +15,11 @@ import {
 
 export default function AddSheet({
   t,
+  lang,
   onAdded,
 }: {
   t: T;
+  lang: Lang;
   onAdded: (note: "saved" | "dupe") => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -87,6 +89,13 @@ export default function AddSheet({
               scheduleButtonText={t.add}
               cancelButtonText={t.close}
               showFooter={false}
+              locale={lang === "kk" ? "kk-KZ" : lang === "ru" ? "ru-RU" : "en-US"}
+              weekdays={t.weekdays.split(",")}
+              selectDateText={t.selectDate}
+              selectTimeText={t.selectTime}
+              startLabel={t.startDate}
+              endLabel={t.endDate}
+              eventText={t.eventPrefix}
               onSchedule={(d) => {
                 if (amount === "") {
                   setError(t.errorAmount);

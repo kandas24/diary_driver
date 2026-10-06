@@ -120,6 +120,7 @@ export default function Page() {
         <div style={{ marginTop: "1rem" }}>
           <AddSheet
             t={t}
+            lang={lang}
             onAdded={(n) => {
               setNote(n === "dupe" ? t.dupe : t.saved);
               load(date);
