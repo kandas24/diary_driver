@@ -193,7 +193,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           </div>
 
           {/* Right Side: Inputs */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <div className="space-y-4">
                {/* Start Date */}
               <div>
@@ -215,6 +215,8 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
 
               {children}
             </div>
+
+            <div className="flex-1" />
 
             {showFooter ? (
             <div className="pt-4 border-t">
