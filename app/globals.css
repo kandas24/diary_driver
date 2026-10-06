@@ -143,6 +143,9 @@ h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; 
 table.ledger { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 table.ledger th { text-align: left; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--card-border); }
 table.ledger td { padding: 0.6rem; border-bottom: 1px solid rgba(224, 38, 60, 0.12); }
+table.ledger th:nth-child(n + 2),
+table.ledger td:nth-child(n + 2) { text-align: center; }
+table.ledger td:nth-child(1) { white-space: nowrap; }
 .empty { color: var(--muted); }
 
 .field { display: grid; gap: 0.25rem; }

@@ -116,7 +116,7 @@ export default function Page() {
           {trips.length === 0 ? (
             <p className="empty">{t.emptyDay}</p>
           ) : (
-            <TripsTable trips={trips} t={t} />
+            <TripsTable trips={trips} t={t} lang={lang} />
           )}
         </section>
         <div style={{ marginTop: "1rem" }}>

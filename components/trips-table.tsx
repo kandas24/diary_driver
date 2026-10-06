@@ -1,8 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Banknote, CreditCard } from "lucide-react";
-import type { Dict as T } from "../lib/i18n";
+import { format, parseISO } from "date-fns";
+import { ru, kk } from "date-fns/locale";
+import type { Locale } from "date-fns";
+import type { Dict as T, Lang } from "../lib/i18n";
 import type { Trip } from "../lib/summary";
 import { Badge } from "./ui/badge";
 import {
@@ -16,40 +20,93 @@ import {
   TableRow,
 } from "./ui/data-table";
 
-export default function TripsTable({ trips, t }: { trips: Trip[]; t: T }) {
-  const columns: ColumnDef<Trip>[] = [
-    {
-      accessorKey: "start",
-      header: ({ column }) => <TableColumnHeader column={column} title={t.time} />,
-      cell: ({ row }) => (
-        <span>
-          {row.original.start} - {row.original.end}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "amount",
-      header: ({ column }) => <TableColumnHeader column={column} title={t.amount} />,
-    },
-    {
-      accessorKey: "payment",
-      header: t.payment,
-      cell: ({ row }) => {
-        const cash = row.original.payment === "cash";
-        const Icon = cash ? Banknote : CreditCard;
-        return (
-          <Badge variant={cash ? "secondary" : "default"}>
-            <Icon className="mr-1 h-3 w-3" />
-            {cash ? t.cash : t.card}
-          </Badge>
-        );
+function rangeText(trip: Trip, locale?: Locale): string {
+  const start = parseISO(trip.start);
+  const end = parseISO(trip.end);
+  const opts = { locale };
+  const sameDay =
+    format(start, "yyyy-MM-dd", opts) === format(end, "yyyy-MM-dd", opts);
+  if (sameDay) {
+    return `${format(start, "HH:mm", opts)} - ${format(end, "HH:mm", opts)}`;
+  }
+  return `${format(start, "HH:mm, d MMM", opts)} - ${format(end, "HH:mm, d MMM", opts)}`;
+}
+
+export default function TripsTable({
+  trips,
+  t,
+  lang,
+}: {
+  trips: Trip[];
+  t: T;
+  lang: Lang;
+}) {
+  const locale = lang === "kk" ? kk : lang === "ru" ? ru : undefined;
+
+  const columns = useMemo<ColumnDef<Trip>[]>(
+    () => [
+      {
+        accessorKey: "start",
+        header: ({ column }) => (
+          <TableColumnHeader
+            column={column}
+            title={t.time}
+            sortAsc={t.sortAsc}
+            sortDesc={t.sortDesc}
+          />
+        ),
+        cell: ({ row }) => (
+          <span className="whitespace-nowrap tabular-nums">
+            {rangeText(row.original, locale)}
+          </span>
+        ),
       },
-    },
-    {
-      accessorKey: "commission",
-      header: ({ column }) => <TableColumnHeader column={column} title={t.commission} />,
-    },
-  ];
+      {
+        accessorKey: "amount",
+        header: ({ column }) => (
+          <TableColumnHeader
+            column={column}
+            title={t.amount}
+            sortAsc={t.sortAsc}
+            sortDesc={t.sortDesc}
+          />
+        ),
+        cell: ({ row }) => (
+          <span className="tabular-nums">{row.original.amount}</span>
+        ),
+      },
+      {
+        accessorKey: "payment",
+        header: t.payment,
+        cell: ({ row }) => {
+          const cash = row.original.payment === "cash";
+          const Icon = cash ? Banknote : CreditCard;
+          return (
+            <Badge variant={cash ? "secondary" : "default"}>
+              <Icon className="mr-1 h-3 w-3" />
+              {cash ? t.cash : t.card}
+            </Badge>
+          );
+        },
+      },
+      {
+        accessorKey: "commission",
+        header: ({ column }) => (
+          <TableColumnHeader
+            column={column}
+            title={t.commission}
+            sortAsc={t.sortAsc}
+            sortDesc={t.sortDesc}
+          />
+        ),
+        cell: ({ row }) => (
+          <span className="tabular-nums">{row.original.commission}</span>
+        ),
+      },
+    ],
+    [t, locale]
+  );
+
   return (
     <TableProvider columns={columns} data={trips}>
       <table className="ledger">
