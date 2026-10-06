@@ -1,0 +1,23 @@
+import type { Summary } from "../lib/summary";
+import type { Dict as T } from "../lib/i18n";
+
+export default function SummaryCards({ summary, t }: { summary: Summary; t: T }) {
+  const cards: Array<[string, string | number, boolean]> = [
+    [t.count, summary.count, false],
+    [t.revenue, summary.revenue, false],
+    [t.commissionLabel, summary.commission, false],
+    [t.net, summary.net, true],
+    [t.cash, summary.cash.total + " / " + summary.cash.count, false],
+    [t.card, summary.card.total + " / " + summary.card.count, false],
+  ];
+  return (
+    <ul className="cards" aria-live="polite">
+      {cards.map(([label, value, hero]) => (
+        <li key={label} className={hero ? "card hero" : "card"}>
+          <b>{value}</b>
+          <span>{label}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
