@@ -105,7 +105,7 @@ export default function Page() {
             <LangToggle lang={lang} onChange={setLang} />
           </div>
         </div>
-        {summary && <SummaryCards summary={summary} t={t} />}
+        {summary && <SummaryCards summary={summary} t={t} lang={lang} />}
         {week.length > 0 && (
           <section aria-label={t.week} style={{ marginBottom: "0.75rem" }}>
             <WeekChart data={week} selected={date} lang={lang} t={t} onSelect={setDate} />

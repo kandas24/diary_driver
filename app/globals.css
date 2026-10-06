@@ -119,8 +119,14 @@ h1 { font-family: "CodeProLC", "Century Gothic", sans-serif; font-size: 1.6rem; 
 }
 .card b { display: block; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
 .card span { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.card-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
 .card .card-count {
-  margin-top: 0.25rem;
   color: var(--muted);
   font-size: 0.72rem;
   text-transform: none;

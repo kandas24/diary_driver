@@ -1,7 +1,21 @@
+import { plural } from "../lib/plural";
 import type { Summary } from "../lib/summary";
-import type { Dict as T } from "../lib/i18n";
+import type { Dict as T, Lang } from "../lib/i18n";
 
-export default function SummaryCards({ summary, t }: { summary: Summary; t: T }) {
+export default function SummaryCards({
+  summary,
+  t,
+  lang,
+}: {
+  summary: Summary;
+  t: T;
+  lang: Lang;
+}) {
+  const tripsWord = (n: number) => {
+    if (lang === "kk") return plural(n, "тарих", "тарих", "тарих");
+    if (lang === "en") return n === 1 ? "trip" : "trips";
+    return plural(n, "поездка", "поездки", "поездок");
+  };
   const cards: Array<{
     label: string;
     value: string | number;
@@ -23,12 +37,14 @@ export default function SummaryCards({ summary, t }: { summary: Summary; t: T })
             key={card.label}
             className={(card.hero ? "card hero" : "card") + " span-2"}
           >
-            <b>{card.value}</b>
-            {card.count !== undefined && (
-              <span className="card-count">
-                {card.count} {t.tripsWord}
-              </span>
-            )}
+            <div className="card-value">
+              <b>{card.value}</b>
+              {card.count !== undefined && (
+                <span className="card-count">
+                  {card.count} {tripsWord(card.count)}
+                </span>
+              )}
+            </div>
             <span>{card.label}</span>
           </li>
         ))}
