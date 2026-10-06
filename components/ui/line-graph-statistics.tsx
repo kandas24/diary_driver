@@ -17,7 +17,7 @@ export type StatsLabels = {
   peak: string;
   average: string;
   growth: string;
-  total: string;
+  weekTotal: string;
 };
 
 const CleanWireframeAnalytics = ({
@@ -359,8 +359,8 @@ const CleanWireframeAnalytics = ({
               style={{ transitionDelay: '2400ms' }}
             >
               <div className="flex items-center gap-3">
-                <span className="text-zinc-400 font-medium">{labels.total}</span>
-                <span className="font-bold">{labels.total}: {currentData.peak + currentData.average}</span>
+                <span className="text-zinc-400 font-medium">{labels.weekTotal}</span>
+                <span className="font-bold">{currentData.peak + currentData.average}</span>
               </div>
               <div className="w-48 h-2 bg-gray-700 rounded-full mt-2 overflow-hidden">
                 <div 

@@ -70,7 +70,7 @@ export default function WeekChart({
         peak: t.peak,
         average: t.avg,
         growth: t.growth,
-        total: t.weekTotal,
+        weekTotal: t.weekTotal,
       }}
       selectedIndex={selectedIndex}
       onSelect={(label) => {
