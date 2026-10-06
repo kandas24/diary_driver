@@ -5,6 +5,7 @@ import { ChevronDown, Check } from "lucide-react";
 const languages = [
   { code: "en", label: "English", flag: "🇺🇸" },
   { code: "ru", label: "Русский", flag: "🇷🇺" },
+  { code: "kk", label: "Қазақша", flag: "🇰🇿" },
 ];
 
 export const Component = ({
@@ -42,7 +43,7 @@ export const Component = ({
         className={cn(
           "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
           "bg-neutral-900/90 backdrop-blur-md shadow-sm",
-          "border-neutral-700",
+          "border-[#e0263c]",
           "text-neutral-200",
           "hover:bg-neutral-800 transition-all"
         )}

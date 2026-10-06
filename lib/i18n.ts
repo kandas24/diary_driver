@@ -1,4 +1,4 @@
-export type Lang = "ru" | "en";
+export type Lang = "ru" | "en" | "kk";
 
 export type Dict = { [k: string]: string };
 
@@ -34,7 +34,8 @@ export const STRINGS: Record<Lang, Dict> = {
     week: "Неделя",
     time: "Время",
   },
-  en: {    title: "Driver shift diary",
+  en: {
+    title: "Driver shift diary",
     subtitle: "Trips and payout per day.",
     day: "Day",
     trips: "Trips",
@@ -63,5 +64,36 @@ export const STRINGS: Record<Lang, Dict> = {
     avg: "Avg",
     week: "Week",
     time: "Time",
+  },
+  kk: {
+    title: "Жүргізуші күнделігі",
+    subtitle: "Күндегі тарихтар мен табыс.",
+    day: "Күн",
+    trips: "Тарихтар",
+    addTrip: "Тарих қосу",
+    start: "Басылуы",
+    end: "Аяқталуы",
+    amount: "Сома",
+    payment: "Төлем",
+    commission: "Комиссия",
+    commissionOptional: "Комиссия (қалаңылы)",
+    idOptional: "Id (қалаңылы, қайта жіберсе қайта қолданылады)",
+    add: "Қосу",
+    cash: "қолма-қол",
+    card: "карта",
+    count: "Тарихтар",
+    revenue: "Табыс",
+    commissionLabel: "Комиссия",
+    net: "Қолға түскен",
+    emptyDay: "Бұл күні тарих жоқ.",
+    saved: "Тарих сақталды.",
+    dupe: "Өз сақталды (id қайталанды).",
+    serverError: "Сервер қолжетімсіз.",
+    close: "Жабу",
+    peak: "Макс",
+    low: "Мин",
+    avg: "Орта",
+    week: "Апта",
+    time: "Уақыт",
   },
 };

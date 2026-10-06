@@ -48,7 +48,7 @@ export default function Page() {
 
   useEffect(() => {
     const saved = localStorage.getItem("diary-lang");
-    if (saved === "ru" || saved === "en") setLang(saved);
+    if (saved === "ru" || saved === "en" || saved === "kk") setLang(saved);
   }, []);
 
   useEffect(() => {
